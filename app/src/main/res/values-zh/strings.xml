@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CodeAssist</string>
+    <string name="app_name">Codech Studio</string>
     <string name="hello_world">Hello world!</string>
     <item name="paste" type="string">粘贴</item>
     <item name="copy" type="string">复制</item>
@@ -171,8 +171,8 @@
     <string name="menu_preview_layout">布局预览</string>
 
     <string name="project_manager_alpha_notice_title">Alpha 版本公告</string>
-    <string name="project_manager_alpha_notice">CodeAssist仍处于alpha版本，
-        你可能会遇到崩溃、bug和不完整的功能，你可以反馈这些问题到这里 https://github.com/tyron12233/CodeAssist/issues</string>
+    <string name="project_manager_alpha_notice">Codech Studio仍处于alpha版本，
+        你可能会遇到崩溃、bug和不完整的功能，你可以反馈这些问题到这里 https://github.com/tyron12233/Codech Studio/issues</string>
     <string name="project_manager_save_location_title">选择保存位置</string>
     <string name="project_manager_permission_denied">没有权限</string>
     <string name="project_manager_button_request_again">再次请求</string>

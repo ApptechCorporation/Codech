@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CodeAssist</string>
+    <string name="app_name">Codech Studio</string>
     <string name="hello_world">Halo dunia!</string>
     <item name="paste" type="string">Tempel</item>
     <item name="copy" type="string">Salin</item>
@@ -148,9 +148,9 @@
     <string name="menu_preview_layout">Pratinjau layout</string>
 
     <string name="project_manager_alpha_notice_title">Pemberitahuan alpha</string>
-    <string name="project_manager_alpha_notice">CodeAssist sedang dalam versi alpha,
+    <string name="project_manager_alpha_notice">Codech Studio sedang dalam versi alpha,
         Anda mungkin mengalami error, bug, dan fitur yang tidak lengkap.\nAnda
-        dapat melaporkan masalah-masalah tersebut di https://github.com/tyron12233/CodeAssist/issues</string>
+        dapat melaporkan masalah-masalah tersebut di https://github.com/tyron12233/Codech Studio/issues</string>
     <string name="project_manager_save_location_title">Pilih lokasi penyimpanan</string>
     <string name="project_manager_permission_denied">Izin ditolak</string>
     <string name="project_manager_button_request_again">Izin lagi</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CodeAssist</string>
+    <string name="app_name">Codech Studio</string>
     <string name="hello_world">Hallo Welt!</string>
     <item name="paste" type="string">Einfügen</item>
     <item name="copy" type="string">Kopieren</item>
@@ -149,9 +149,9 @@
     <string name="menu_preview_layout">Layout-Vorschau</string>
 
     <string name="project_manager_alpha_notice_title">Alpha-Anmerkung</string>
-    <string name="project_manager_alpha_notice">CodeAssist ist noch in der Alpha-Phase,
+    <string name="project_manager_alpha_notice">Codech Studio ist noch in der Alpha-Phase,
         das heißt du könntest Abstürze, Fehler und unvollständige Features bemerken.\nDu
-        kannst diese Probleme hier melden: https://github.com/tyron12233/CodeAssist/issues</string>
+        kannst diese Probleme hier melden: https://github.com/tyron12233/Codech Studio/issues</string>
     <string name="project_manager_save_location_title">Wähle einen Speicherort</string>
     <string name="project_manager_permission_denied">Zugriff verweigert</string>
     <string name="project_manager_button_request_again">Nochmal fragen</string>

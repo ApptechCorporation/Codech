@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CodeAssist</string>
+    <string name="app_name">Codech Studio</string>
     <string name="hello_world">Merhaba Dünya!</string>
     <item name="paste" type="string">Yapıştır</item>
     <item name="copy" type="string">Kopyala</item>
@@ -150,7 +150,7 @@
     <string name="project_manager_alpha_notice_title">Alpha Notu</string>
     <string name="project_manager_alpha_notice">CodeAssit hala Alpha sürümde,
         hatalarla, bozulmalarla ve tamamlanmayan özelliklerle karşılaşabilirsiniz.\nBu
-        hataları https://github.com/tyron12233/CodeAssist/issues adresinden raporlayabilirsiniz.</string>
+        hataları https://github.com/tyron12233/Codech Studio/issues adresinden raporlayabilirsiniz.</string>
     <string name="project_manager_save_location_title">Kaydetme konumu seç</string>
     <string name="project_manager_permission_denied">İzin reddedildi</string>
     <string name="project_manager_button_request_again">Tekrar İste</string>

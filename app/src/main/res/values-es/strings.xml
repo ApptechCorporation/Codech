@@ -168,9 +168,9 @@
     <string name="menu_preview_layout">vista previa de diseño</string>
 
     <string name="project_manager_alpha_notice_title">Aviso alfa</string>
-    <string name="project_manager_alpha_notice">CodeAssist todavía está en alpha,
+    <string name="project_manager_alpha_notice">Codech Studio todavía está en alpha,
         Posiblemente encuentres errores, crasheos o características incompletas.\nPuedes
-        reportar estos problemas en https://github.com/tyron12233/CodeAssist/issues</string>
+        reportar estos problemas en https://github.com/tyron12233/Codech Studio/issues</string>
     <string name="project_manager_save_location_title">Seleccionar ubicación para guardar</string>
     <string name="project_manager_permission_denied">Permiso denegado</string>
     <string name="project_manager_button_request_again">Solicitar otra vez</string>

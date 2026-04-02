@@ -7,7 +7,15 @@
         android:icon="@drawable/round_play_arrow_24"
         android:title="@string/menu_run"
         app:showAsAction="always">
-</item>
+    </item>
+
+    <item
+        android:id="@+id/menu_preview_layout"
+        android:icon="@drawable/ic_preview"
+        android:title="@string/menu_preview_layout"
+        app:showAsAction="always">
+    </item>
+
 
     <item
         android:id="@+id/item_project"
@@ -20,7 +28,7 @@
                 android:title="@string/menu_refresh" />
             <item
                 android:id="@+id/library_manager"
-                android:title="@string/menu_library_manager"/>
+                android:title="@string/menu_library_manager" />
         </menu>
     </item>
 
@@ -31,8 +39,4 @@
     <item
         android:id="@+id/menu_settings"
         android:title="@string/menu_settings" />
-
-    <item
-        android:id="@+id/menu_preview_layout"
-        android:title="@string/menu_preview_layout" />
 </menu>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CodeAssist</string>
+    <string name="app_name">Codech Studio</string>
     <string name="hello_world">Hello world!</string>
     <item name="paste" type="string">Вставить</item>
     <item name="copy" type="string">Скопировать</item>
@@ -150,9 +150,9 @@
     <string name="menu_preview_layout">Предпросмотр макета</string>
 
     <string name="project_manager_alpha_notice_title">Уведомление об альфа-версии</string>
-    <string name="project_manager_alpha_notice">CodeAssist все еще находится в альфа-версии,
+    <string name="project_manager_alpha_notice">Codech Studio все еще находится в альфа-версии,
         вы можете столкнуться со сбоями, ошибками и ограниченным функционалом.\nВы
-        можете сообщить об этих проблемах на https://github.com/tyron12233/CodeAssist/issues</string>
+        можете сообщить об этих проблемах на https://github.com/tyron12233/Codech Studio/issues</string>
     <string name="project_manager_save_location_title">Выбрать место сохранения</string>
     <string name="project_manager_permission_denied">Доступ запрещен</string>
     <string name="project_manager_button_request_again">Запросить еще раз</string>

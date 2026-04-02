@@ -92,14 +92,6 @@ public class MainActivity extends AppCompatActivity {
                         requestStoragePermission();
                     }
                 })
-                .setNegativeButton("Negar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(MainActivity.this,
-                                "Permissão negada. Algumas funcionalidades podem não funcionar.",
-                                Toast.LENGTH_LONG).show();
-                    }
-                })
                 .show();
     }
 
@@ -125,7 +117,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void savePermissionGranted() {
         storage.edit().putString("storage", "granted").apply();
-        Toast.makeText(getApplicationContext(), "Permissão concedida ✅", Toast.LENGTH_SHORT).show();
+        createFolders();
+    }
+
+    private void createFolders() {
+        File dir = new File(Environment.getExternalStorageDirectory(), "Codech/Projects");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
     }
 
     @Override
@@ -147,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == PERMISSION_REQUEST_CODE) {

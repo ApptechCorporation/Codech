@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CodeAssist</string>
+    <string name="app_name">Codech Studio</string>
     <string name="hello_world">Olá mundo!</string>
     <item name="paste" type="string">Colar</item>
     <item name="copy" type="string">Copiar</item>
@@ -170,8 +170,8 @@
     <string name="menu_preview_layout">Pré-visualização de Layout</string>
 
     <string name="project_manager_alpha_notice_title">Aviso Alfa</string>
-    <string name="project_manager_alpha_notice">O CodeAssist ainda está em alfa,
-                você pode encontrar falhas, bugs e características incompletas.\nVocê pode relatar estas questões em https://github.com/tyron12233/CodeAssist/issues</string>
+    <string name="project_manager_alpha_notice">O Codech Studio ainda está em alfa,
+                você pode encontrar falhas, bugs e características incompletas.\nVocê pode relatar estas questões em https://github.com/tyron12233/Codech Studio/issues</string>
     <string name="project_manager_save_location_title">Selecione o local de salvamento</string>
     <string name="project_manager_permission_denied">Permissão negada</string>
     <string name="project_manager_button_request_again">Solicite novamente</string>
