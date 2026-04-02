@@ -1,4 +1,4 @@
-> [!WELCOME]
+> [AppTech]
 > Remaker Version Of CodeAssist Pro.
 
 <p align='center'>
@@ -90,7 +90,7 @@
 
 ## CodeAssist Community
 
-English-language chat in Telegram: https://t.me/codeassist_app
+English-language chat in Telegram: https://t.me/ApptechIDE
 
 ## Building - Android Studio
 
@@ -125,5 +125,3 @@ you find documentation under [docs](docs/) directory.
 # Contributors
 
 - Updated Templates By @SENPAi_203
-
-# CodeAssist-Unofficial
