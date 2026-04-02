@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
 
     private TextView configure_settings;
 
-    private FrameLayout openProjectList;
+    private FrameLayout open_project_list;
 
     private SharedPreferences mPreferences;
     private boolean mShowDialogOnPermissionGrant;
@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment {
         open_custom_project = view.findViewById(R.id.openProject);
         open_project_manager = view.findViewById(R.id.openProjectManager);
         configure_settings = view.findViewById(R.id.configureSettings);
-        openProjectList = view.findViewById(R.id.open_project_list);
+        open_project_list = view.findViewById(R.id.openProjectList);
 
         showProjectManager();
 
@@ -215,7 +215,7 @@ public class HomeFragment extends Fragment {
     private void showProjectManager() {
         getParentFragmentManager()
                 .beginTransaction()
-                .replace(R.id.open_project_list, new ProjectFragmentFixed())
+                .replace(R.id.open_project_list, new ProjectFragment())
                 .commit();
     }
 
