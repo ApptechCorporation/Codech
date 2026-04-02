@@ -44,17 +44,19 @@ import java.util.Objects;
 public class HomeFragment extends Fragment {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
-    private MaterialButton create_new_project,
-            clone_git_repository,
-            import_project,
-            open_custom_project,
-            open_project_manage;
+    
+    private MaterialButton create_new_project;
+    private MaterialButton clone_git_repository;
+    private MaterialButton import_project;
+    private MaterialButton open_custom_project;
+    private MaterialButton open_project_manage;
+    
+    private TextView configure_settings;
 
     private SharedPreferences mPreferences;
     private boolean mShowDialogOnPermissionGrant;
     private ActivityResultLauncher<String[]> mPermissionLauncher;
     private final ActivityResultContracts.RequestMultiplePermissions mPermissionsContract = new ActivityResultContracts.RequestMultiplePermissions();
-    private TextView configure_settings;
 
     private final ActivityResultLauncher<Intent> documentPickerLauncher = registerForActivityResult(
     new ActivityResultContracts.StartActivityForResult(),
@@ -195,7 +197,7 @@ public class HomeFragment extends Fragment {
         import_project = view.findViewById(R.id.importProject);
         open_custom_project = view.findViewById(R.id.openProject);
         open_project_manager = view.findViewById(R.id.openProjectManager);
-        configure_settings = view.findViewById(R.id.configureSettings);              
+        configure_settings = view.findViewById(R.id.configureSettings);
 
         boolean isOpenCustomProject = mPreferences.getBoolean("open_custom_project", false);
 
