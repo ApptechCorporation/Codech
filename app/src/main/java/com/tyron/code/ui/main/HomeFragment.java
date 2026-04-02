@@ -35,7 +35,6 @@ import com.tyron.code.ui.wizard.WizardFragment;
 import com.tyron.common.SharedPreferenceKeys;
 import com.tyron.common.util.AndroidUtilities;
 import com.tyron.completion.progress.ProgressManager;
-import com.tyron.code.R;
 import com.tyron.resources.R;
 
 import java.io.File;
@@ -50,11 +49,12 @@ public class HomeFragment extends Fragment {
     private MaterialButton import_project;
     private MaterialButton open_custom_project;
     private MaterialButton open_project_manager;
+    
+    private FrameLayout open_project_list;
 
     private TextView configure_settings;
 
     // ✅ PADRÃO CORRETO
-    private FrameLayout open_project_list;
 
     private SharedPreferences mPreferences;
     private boolean mShowDialogOnPermissionGrant;
@@ -130,9 +130,7 @@ public class HomeFragment extends Fragment {
         open_custom_project = view.findViewById(R.id.openProject);
         open_project_manager = view.findViewById(R.id.openProjectManager);
         configure_settings = view.findViewById(R.id.configureSettings);
-
-        // ✅ CORREÇÃO AQUI
-        open_project_list = view.findViewById(R.id.open_project_list);
+        open_project_list = view.findViewById(R.id.openProjectList);
 
         showProjectManager();
 
@@ -169,7 +167,7 @@ public class HomeFragment extends Fragment {
     public void showProjectManager() {
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(open_project_list.getId(), new ProjectFragment())
+                .replace(R.id.open_project_list, new ProjectFragment())
                 .commit();
     }
 
