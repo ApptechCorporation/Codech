@@ -132,7 +132,6 @@
                 android:id="@+id/app_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:text="Meus Projetos"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
