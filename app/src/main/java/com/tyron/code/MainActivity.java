@@ -14,11 +14,15 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.view.KeyEvent;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import android.provider.Settings;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+
+import com.google.android.material.button.*;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,10 +34,14 @@ import com.tyron.resources.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SharedPreferences storage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        storage = getSharedPreferences("storage", Activity.MODE_PRIVATE);
 
         HomeFragment homeFragment = new HomeFragment();
         if (getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG) == null) {
@@ -66,18 +74,37 @@ public class MainActivity extends AppCompatActivity {
         return super.onKeyUp(keyCode, event);
     }
 
-    public void OpenAppSettings() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getPackageName(), null);
-        intent.setData(uri);
-        startActivity(intent);
+    public void _OpenAppSettings() {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(MainActivity.this);
+        builder.setIcon(R.drawable.icon_folder_round);
+        builder.setTitle("Permitir acesso");
+        builder.setMessage("Permita que o aplicativo acesse o armazenamento do seu dispositivo para salvar arquivos e pastas. \n\n(Acesso para gerenciar todos os arquivos)");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Permitir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(intent, 11);
+                } else {
+
+                    SketchwareUtil.showMessage(getApplicationContext(), "Permissão concedida ✅");
+                    storage.edit().putString("storage", "storage").apply();
+                }
+            }
+        });
+        AlertDialog dialog = builder.show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 11) {
-            Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Não permitir ❌", Toast.LENGTH_SHORT).show();
         }
         switch (requestCode) {
             default:
