@@ -5,24 +5,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.FrameLayout;
-import androidx.fragment.app.FragmentManager;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
@@ -41,14 +36,11 @@ import com.tyron.common.SharedPreferenceKeys;
 import com.tyron.common.util.AndroidUtilities;
 import com.tyron.completion.progress.ProgressManager;
 import com.tyron.resources.R;
-import dev.mutwakil.codeassist.BuildConfig;
 
 import java.io.File;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
-
-    public static final String TAG = HomeFragment.class.getSimpleName();
 
     private MaterialButton create_new_project;
     private MaterialButton clone_git_repository;
@@ -58,6 +50,7 @@ public class HomeFragment extends Fragment {
 
     private TextView configure_settings;
 
+    // ✅ PADRÃO CORRETO
     private FrameLayout open_project_list;
 
     private SharedPreferences mPreferences;
@@ -70,25 +63,29 @@ public class HomeFragment extends Fragment {
             Intent data = result.getData();
             if (data != null && data.getData() != null) {
                 Uri uri = data.getData();
-                String name = Objects.requireNonNull(DocumentFile.fromSingleUri(requireContext(), uri)).getName();
+                String name = Objects.requireNonNull(
+                        DocumentFile.fromSingleUri(requireContext(), uri)).getName();
+
                 if (name != null) {
                     name = name.substring(0, name.lastIndexOf('.'));
                     String path = Environment.getExternalStorageDirectory() + "/Codech";
 
                     File project = new File(path, name);
                     if (project.exists()) {
-                        AndroidUtilities.showToast(getString(R.string.project_already_exists, project.getName()));
+                        AndroidUtilities.showToast(
+                                getString(R.string.project_already_exists, project.getName()));
                         return;
                     }
 
                     ImportProjectProgressFragment fragment = ImportProjectProgressFragment.Companion.newInstance(uri);
-                    fragment.setOnSuccessListener(() -> {});
+
                     fragment.setOnButtonClickedListener(() -> {
                         openProject(new Project(project));
                         fragment.dismiss();
                     });
 
-                    fragment.show(getChildFragmentManager(), ImportProjectProgressFragment.TAG);
+                    fragment.show(getChildFragmentManager(),
+                            ImportProjectProgressFragment.TAG);
                 }
             }
         }
@@ -103,24 +100,12 @@ public class HomeFragment extends Fragment {
                 File file = new File(uri.getPath());
                 String[] split = file.getPath().split(":");
 
-                String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + split[
-                        1];
+                String path = Environment.getExternalStorageDirectory()
+                                .getAbsolutePath() + "/" + split[1];
+
                 openProject(new Project(new File(path)));
             }
         }
-    });
-
-    private final ActivityResultLauncher<
-            Intent> permissionLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        ProgressManager.getInstance().runLater(() -> {
-            if (Environment.isExternalStorageManager()) {
-                AndroidUtilities.showToast("Permission granted");
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-                documentPickerLauncher2.launch(intent);
-            } else {
-                AndroidUtilities.showToast("Permission not granted");
-            }
-        }, 500);
     });
 
     @Override
@@ -128,36 +113,11 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setExitTransition(new MaterialSharedAxis(MaterialSharedAxis.X, false));
         mPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-
-        mPermissionLauncher = registerForActivityResult(
-        new ActivityResultContracts.RequestMultiplePermissions(),
-        result -> {
-            if (result.containsValue(false)) {
-                new MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(R.string.project_manager_permission_denied)
-                        .setMessage(R.string.project_manager_android11_notice)
-                        .setPositiveButton(R.string.project_manager_button_request_again,
-                                (d, which) -> {
-                                    mShowDialogOnPermissionGrant = true;
-                                    requestPermissions();
-                                })
-                        .setNegativeButton(R.string.project_manager_button_continue,
-                                (d, which) -> {
-                                    mShowDialogOnPermissionGrant = false;
-                                    setSavePath(Environment.getExternalStorageDirectory() + "/Codech/Projects");
-                                })
-                        .show();
-            } else {
-                if (mShowDialogOnPermissionGrant) {
-                    mShowDialogOnPermissionGrant = false;
-                    savePath();
-                }
-            }
-        });
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setVisibility(View.GONE);
 
@@ -167,33 +127,25 @@ public class HomeFragment extends Fragment {
         open_custom_project = view.findViewById(R.id.openProject);
         open_project_manager = view.findViewById(R.id.openProjectManager);
         configure_settings = view.findViewById(R.id.configureSettings);
-        open_project_list = view.findViewById(R.id.openProjectList);
 
-        showProjectManager();
+        // ✅ CORREÇÃO AQUI
+        open_project_list = view.findViewById(R.id.open_project_list);
 
-        boolean isOpenCustomProject = mPreferences.getBoolean("open_custom_project", false);
-
-        if (open_project_manager != null && open_custom_project != null) {
-            if (isOpenCustomProject) {
-                open_project_manager.setVisibility(View.GONE);
-                open_custom_project.setVisibility(View.VISIBLE);
-            } else {
-                open_project_manager.setVisibility(View.VISIBLE);
-                open_custom_project.setVisibility(View.GONE);
-            }
-        }
+        showProjectManager(open_project_list);
 
         create_new_project.setOnClickListener(v -> {
             WizardFragment wizardFragment = new WizardFragment();
             wizardFragment.setOnProjectCreatedListener(this::openProject);
-            getParentFragmentManager().beginTransaction()
+
+            getParentFragmentManager()
+                    .beginTransaction()
                     .replace(R.id.fragment_container, wizardFragment)
                     .addToBackStack(null)
                     .commit();
         });
 
         clone_git_repository.setOnClickListener(v ->
-                GitCloneTask.INSTANCE.clone((Context) requireContext()));
+                GitCloneTask.INSTANCE.clone(requireContext()));
 
         import_project.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -207,27 +159,29 @@ public class HomeFragment extends Fragment {
         });
 
         configure_settings.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), SettingsActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(requireActivity(), SettingsActivity.class));
         });
     }
 
-    private void showProjectManager() {
+    public void showProjectManager(final View fragmentView) {
         getParentFragmentManager()
                 .beginTransaction()
-                .replace(R.id.open_project_list, new ProjectFragment())
+                .replace(R.id.fragmentView, new ProjectFragment())
                 .commit();
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.home_fragment, container, false);
     }
 
     private void setSavePath(String path) {
-        mPreferences.edit().putString(SharedPreferenceKeys.PROJECT_SAVE_PATH, path).apply();
+        mPreferences.edit()
+                .putString(SharedPreferenceKeys.PROJECT_SAVE_PATH, path)
+                .apply();
     }
 
     private void savePath() {
