@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.FrameLayout;
+import androidx.fragment.app.FragmentManager;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -56,7 +57,7 @@ public class HomeFragment extends Fragment {
     private MaterialButton open_project_manager;
 
     private TextView configure_settings;
-    
+
     private FrameLayout open_project_list;
 
     private SharedPreferences mPreferences;
@@ -165,9 +166,9 @@ public class HomeFragment extends Fragment {
         import_project = view.findViewById(R.id.importProject);
         open_custom_project = view.findViewById(R.id.openProject);
         open_project_manager = view.findViewById(R.id.openProjectManager);
-        configure_settings = view.findViewById(R.id.configureSettings);      
-        open_project_list = view.findViewById(R.id.openProjectList);       
-        
+        configure_settings = view.findViewById(R.id.configureSettings);
+        open_project_list = view.findViewById(R.id.openProjectList);
+
         showProjectManager();
 
         boolean isOpenCustomProject = mPreferences.getBoolean("open_custom_project", false);
@@ -212,13 +213,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void showProjectManager() {
-        ProjectFragment projectFragment = new ProjectFragment();
-        if (getSupportFragmentManager().findFragmentByTag(ProjectFragment.TAG) == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.open_project_list, projectFragment, ProjectFragment.TAG)
-                    .commit();
-        }            
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.open_project_list, new ProjectFragment())
+                .commit();
     }
 
     @Nullable

@@ -41,7 +41,7 @@ import java.util.concurrent.Executors;
 
 import org.apache.commons.io.FileUtils;
 
-public class ProjectFragmentFixed extends Fragment {
+public class ProjectFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private ProjectManagerAdapter mAdapter;

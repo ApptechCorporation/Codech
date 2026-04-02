@@ -5,7 +5,7 @@
  <img width='200px%' height='200px' src='https://raw.githubusercontent.com/ApptechCorporation/Codech/main/logo.png' >
 </p>
 
-<h2 align="center"><b>Codech IDE</b></h2>
+<h2 align="center"><b>Codech Studio </b></h2>
 <p align="center">
 <p><br>
 
