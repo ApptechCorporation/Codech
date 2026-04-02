@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment {
         open_custom_project = view.findViewById(R.id.openProject);
         open_project_manager = view.findViewById(R.id.openProjectManager);
         configure_settings = view.findViewById(R.id.configureSettings);
-        openProjectList = view.findViewById(R.id.openProjectList);
+        openProjectList = view.findViewById(R.id.open_project_list);
 
         showProjectManager();
 
@@ -215,7 +215,7 @@ public class HomeFragment extends Fragment {
     private void showProjectManager() {
         getParentFragmentManager()
                 .beginTransaction()
-                .replace(R.id.openProjectList, new ProjectFragment())
+                .replace(R.id.open_project_list, new ProjectFragmentFixed())
                 .commit();
     }
 
