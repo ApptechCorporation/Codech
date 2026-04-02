@@ -46,7 +46,7 @@ public class ProjectFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ProjectManagerAdapter mAdapter;
     private Project project = null;
-    
+
     public static final String TAG = ProjectFragment.class.getSimpleName();
 
     @Nullable
@@ -81,9 +81,7 @@ public class ProjectFragment extends Fragment {
 
         new MaterialAlertDialogBuilder(requireContext())
                 .setItems(option, (dialog, which) -> {
-
                     switch (which) {
-
                         case 0: // Rename
                             View v = LayoutInflater.from(requireContext())
                                     .inflate(R.layout.base_textinput_layout, null);
@@ -95,7 +93,6 @@ public class ProjectFragment extends Fragment {
                                     .setTitle("Rename")
                                     .setView(v)
                                     .setPositiveButton("OK", (d, w) -> {
-
                                         try {
                                             File oldDir = project.getRootFile();
                                             File newDir = new File(oldDir.getParent(), rename.toString());
@@ -117,8 +114,7 @@ public class ProjectFragment extends Fragment {
                             break;
 
                         case 2: // Copy path
-                            ClipboardManager clipboard = (ClipboardManager)
-                                    requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
 
                             clipboard.setText(project.getRootFile().toString());
                             Toast.makeText(requireContext(), "Copied", Toast.LENGTH_SHORT).show();
@@ -130,13 +126,14 @@ public class ProjectFragment extends Fragment {
     }
 
     private void deleteProject(Project project) {
-
         Executors.newSingleThreadExecutor().execute(() -> {
-
             try {
                 FileUtils.forceDelete(project.getRootFile());
 
+                if (!isAdded() || getActivity() == null) return; // ← ADICIONAR
+
                 requireActivity().runOnUiThread(() -> {
+                    if (!isAdded()) return; // ← ADICIONAR
                     Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT).show();
                     loadProjects();
                 });
@@ -162,9 +159,7 @@ public class ProjectFragment extends Fragment {
     }
 
     private void loadProjects() {
-
         Executors.newSingleThreadExecutor().execute(() -> {
-
             String path = Environment.getExternalStorageDirectory() + "/Codech/Projects";
             File projectDir = new File(path);
 
@@ -173,7 +168,6 @@ public class ProjectFragment extends Fragment {
             }
 
             File[] dirs = projectDir.listFiles(File::isDirectory);
-
             List<Project> list = new ArrayList<>();
 
             if (dirs != null) {
@@ -182,7 +176,10 @@ public class ProjectFragment extends Fragment {
                 }
             }
 
+            if (!isAdded() || getActivity() == null) return; // ← ADICIONAR
+
             requireActivity().runOnUiThread(() -> {
+                if (!isAdded()) return; // ← ADICIONAR
                 mAdapter.submitList(list);
             });
         });
