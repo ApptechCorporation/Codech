@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 11) {
-            Toast.makeTextMainActivity(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
         }
         switch (requestCode) {
             default:
