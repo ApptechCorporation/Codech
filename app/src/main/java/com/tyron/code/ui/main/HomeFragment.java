@@ -131,7 +131,7 @@ public class HomeFragment extends Fragment {
         // ✅ CORREÇÃO AQUI
         open_project_list = view.findViewById(R.id.open_project_list);
 
-        showProjectManager(open_project_list);
+        showProjectManager();
 
         create_new_project.setOnClickListener(v -> {
             WizardFragment wizardFragment = new WizardFragment();
@@ -163,10 +163,10 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void showProjectManager(final View fragmentView) {
-        getParentFragmentManager()
+    public void showProjectManager() {
+        getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentView, new ProjectFragment())
+                .replace(open_project_list.getId(), new ProjectFragment())
                 .commit();
     }
 
