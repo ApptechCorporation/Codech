@@ -42,6 +42,8 @@ import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
+    public static final String TAG = HomeFragment.class.getSimpleName();
+
     private MaterialButton create_new_project;
     private MaterialButton clone_git_repository;
     private MaterialButton import_project;
