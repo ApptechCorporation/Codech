@@ -33,7 +33,7 @@ import com.google.android.material.transition.MaterialSharedAxis;
 import com.tyron.builder.project.Project;
 import com.tyron.code.tasks.git.GitCloneTask;
 import com.tyron.code.ui.project.ImportProjectProgressFragment;
-import com.tyron.code.ui.project.ProjectSheetFragment;
+import com.tyron.code.ui.project.ProjectFragment;
 import com.tyron.code.ui.settings.SettingsActivity;
 import com.tyron.code.ui.wizard.WizardFragment;
 import com.tyron.common.SharedPreferenceKeys;
