@@ -14,6 +14,8 @@ import android.provider.Settings;
 import android.view.KeyEvent; // ✅ CORRIGIDO
 import android.widget.Toast;
 
+import java.io.File;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
