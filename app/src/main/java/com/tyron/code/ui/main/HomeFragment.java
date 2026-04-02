@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment {
     public void showProjectManager() {
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.open_project_list, new ProjectFragment())
+                .replace(open_project_list.getId(), new ProjectFragment())
                 .commit();
     }
 
