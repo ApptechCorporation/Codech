@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -55,68 +56,71 @@ public class HomeFragment extends Fragment {
     private MaterialButton open_project_manager;
 
     private TextView configure_settings;
+    
+    private FrameLayout open_project_list;
 
     private SharedPreferences mPreferences;
     private boolean mShowDialogOnPermissionGrant;
     private ActivityResultLauncher<String[]> mPermissionLauncher;
 
-    private final ActivityResultLauncher<Intent> documentPickerLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    if (data != null && data.getData() != null) {
-                        Uri uri = data.getData();
-                        String name = Objects.requireNonNull(DocumentFile.fromSingleUri(requireContext(), uri)).getName();
-                        if (name != null) {
-                            name = name.substring(0, name.lastIndexOf('.'));
-                            String path = Environment.getExternalStorageDirectory() + "/Codech";
+    private final ActivityResultLauncher<
+            Intent> documentPickerLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent data = result.getData();
+            if (data != null && data.getData() != null) {
+                Uri uri = data.getData();
+                String name = Objects.requireNonNull(DocumentFile.fromSingleUri(requireContext(), uri)).getName();
+                if (name != null) {
+                    name = name.substring(0, name.lastIndexOf('.'));
+                    String path = Environment.getExternalStorageDirectory() + "/Codech";
 
-                            File project = new File(path, name);
-                            if (project.exists()) {
-                                AndroidUtilities.showToast(getString(R.string.project_already_exists, project.getName()));
-                                return;
-                            }
-
-                            ImportProjectProgressFragment fragment = ImportProjectProgressFragment.Companion.newInstance(uri);
-                            fragment.setOnSuccessListener(() -> {});
-                            fragment.setOnButtonClickedListener(() -> {
-                                openProject(new Project(project));
-                                fragment.dismiss();
-                            });
-
-                            fragment.show(getChildFragmentManager(), ImportProjectProgressFragment.TAG);
-                        }
+                    File project = new File(path, name);
+                    if (project.exists()) {
+                        AndroidUtilities.showToast(getString(R.string.project_already_exists, project.getName()));
+                        return;
                     }
+
+                    ImportProjectProgressFragment fragment = ImportProjectProgressFragment.Companion.newInstance(uri);
+                    fragment.setOnSuccessListener(() -> {});
+                    fragment.setOnButtonClickedListener(() -> {
+                        openProject(new Project(project));
+                        fragment.dismiss();
+                    });
+
+                    fragment.show(getChildFragmentManager(), ImportProjectProgressFragment.TAG);
                 }
-            });
+            }
+        }
+    });
 
-    private final ActivityResultLauncher<Intent> documentPickerLauncher2 =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    if (data != null && data.getData() != null) {
-                        Uri uri = data.getData();
-                        File file = new File(uri.getPath());
-                        String[] split = file.getPath().split(":");
+    private final ActivityResultLauncher<
+            Intent> documentPickerLauncher2 = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent data = result.getData();
+            if (data != null && data.getData() != null) {
+                Uri uri = data.getData();
+                File file = new File(uri.getPath());
+                String[] split = file.getPath().split(":");
 
-                        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + split[1];
-                        openProject(new Project(new File(path)));
-                    }
-                }
-            });
+                String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + split[
+                        1];
+                openProject(new Project(new File(path)));
+            }
+        }
+    });
 
-    private final ActivityResultLauncher<Intent> permissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                ProgressManager.getInstance().runLater(() -> {
-                    if (Environment.isExternalStorageManager()) {
-                        AndroidUtilities.showToast("Permission granted");
-                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-                        documentPickerLauncher2.launch(intent);
-                    } else {
-                        AndroidUtilities.showToast("Permission not granted");
-                    }
-                }, 500);
-            });
+    private final ActivityResultLauncher<
+            Intent> permissionLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        ProgressManager.getInstance().runLater(() -> {
+            if (Environment.isExternalStorageManager()) {
+                AndroidUtilities.showToast("Permission granted");
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+                documentPickerLauncher2.launch(intent);
+            } else {
+                AndroidUtilities.showToast("Permission not granted");
+            }
+        }, 500);
+    });
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,30 +129,30 @@ public class HomeFragment extends Fragment {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
         mPermissionLauncher = registerForActivityResult(
-                new ActivityResultContracts.RequestMultiplePermissions(),
-                result -> {
-                    if (result.containsValue(false)) {
-                        new MaterialAlertDialogBuilder(requireContext())
-                                .setTitle(R.string.project_manager_permission_denied)
-                                .setMessage(R.string.project_manager_android11_notice)
-                                .setPositiveButton(R.string.project_manager_button_request_again,
-                                        (d, which) -> {
-                                            mShowDialogOnPermissionGrant = true;
-                                            requestPermissions();
-                                        })
-                                .setNegativeButton(R.string.project_manager_button_continue,
-                                        (d, which) -> {
-                                            mShowDialogOnPermissionGrant = false;
-                                            setSavePath(Environment.getExternalStorageDirectory() + "/Codech/Projects");
-                                        })
-                                .show();
-                    } else {
-                        if (mShowDialogOnPermissionGrant) {
-                            mShowDialogOnPermissionGrant = false;
-                            savePath();
-                        }
-                    }
-                });
+        new ActivityResultContracts.RequestMultiplePermissions(),
+        result -> {
+            if (result.containsValue(false)) {
+                new MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(R.string.project_manager_permission_denied)
+                        .setMessage(R.string.project_manager_android11_notice)
+                        .setPositiveButton(R.string.project_manager_button_request_again,
+                                (d, which) -> {
+                                    mShowDialogOnPermissionGrant = true;
+                                    requestPermissions();
+                                })
+                        .setNegativeButton(R.string.project_manager_button_continue,
+                                (d, which) -> {
+                                    mShowDialogOnPermissionGrant = false;
+                                    setSavePath(Environment.getExternalStorageDirectory() + "/Codech/Projects");
+                                })
+                        .show();
+            } else {
+                if (mShowDialogOnPermissionGrant) {
+                    mShowDialogOnPermissionGrant = false;
+                    savePath();
+                }
+            }
+        });
     }
 
     @Override
@@ -161,7 +165,10 @@ public class HomeFragment extends Fragment {
         import_project = view.findViewById(R.id.importProject);
         open_custom_project = view.findViewById(R.id.openProject);
         open_project_manager = view.findViewById(R.id.openProjectManager);
-        configure_settings = view.findViewById(R.id.configureSettings);
+        configure_settings = view.findViewById(R.id.configureSettings);      
+        open_project_list = view.findViewById(R.id.openProjectList);       
+        
+        showProjectManager();
 
         boolean isOpenCustomProject = mPreferences.getBoolean("open_custom_project", false);
 
@@ -198,8 +205,6 @@ public class HomeFragment extends Fragment {
             documentPickerLauncher2.launch(intent);
         });
 
-        open_project_manager.setOnClickListener(v -> showProjectManager());
-
         configure_settings.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), SettingsActivity.class);
             startActivity(intent);
@@ -207,14 +212,19 @@ public class HomeFragment extends Fragment {
     }
 
     private void showProjectManager() {
-        ProjectSheetFragment fragment = new ProjectSheetFragment();
-        fragment.show(getParentFragmentManager(), ProjectSheetFragment.TAG);
+        ProjectFragment projectFragment = new ProjectFragment();
+        if (getSupportFragmentManager().findFragmentByTag(ProjectFragment.TAG) == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.open_project_list, projectFragment, ProjectFragment.TAG)
+                    .commit();
+        }            
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                            @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.home_fragment, container, false);
     }
 

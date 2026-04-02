@@ -2,14 +2,14 @@
 <resources>
     <style name="EditorColorSchemeNight" parent="DefaultEditorColorScheme">
         <item name="annotation">#BBB529</item>
-        <item name="keyword">#CC7832</item>
+        <item name="keyword">#3766CD</item>
         <item name="literal">#629755</item>
         <item name="comment">#808080</item>
         <item name="operator">#FAFAFA</item>
-        <item name="functionName">#FFC66D</item>
+        <item name="functionName">#3766CD</item>
         <item name="xmlAttributeName">#ff9876AA</item>
         <item name="xmlAttributeValue">#629755</item>
-        <item name="htmlTag">#E8BF6A</item>
+        <item name="htmlTag">#3766CD</item>
         <item name="identifierName">#FAFAFA</item>
         <item name="blockLineColor">?attr/dividerColor</item>
         <item name="textNormal">@color/white</item>

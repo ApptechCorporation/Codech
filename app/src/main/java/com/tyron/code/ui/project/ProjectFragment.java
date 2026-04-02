@@ -31,6 +31,10 @@ import com.google.android.material.transition.MaterialFade;
 import com.tyron.builder.project.Project;
 import com.tyron.code.ApplicationLoader;
 import com.tyron.code.ui.main.MainFragment;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.tyron.code.ui.project.adapter.ProjectManagerAdapter;
 import com.tyron.common.SharedPreferenceKeys;
 import com.tyron.common.util.AndroidUtilities;
@@ -45,9 +49,9 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import org.apache.commons.io.FileUtils;
 
-public class ProjectSheetFragment extends BottomSheetDialogFragment {
+public class ProjectFragment extends Fragment {
 
-    public static final String TAG = ProjectSheetFragment.class.getSimpleName();
+    public static final String TAG = ProjectFragment.class.getSimpleName();
     CoordinatorLayout.Behavior behavior;
     private SharedPreferences mPreferences;
     private RecyclerView mRecyclerView;
