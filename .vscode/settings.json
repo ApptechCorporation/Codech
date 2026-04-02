@@ -1,0 +1,118 @@
+{
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            80
+        ],
+        "editor.selectionHighlight": false,
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": "off"
+    },
+    "explorer.confirmDelete": false,
+    "dart.debugExternalPackageLibraries": true,
+    "dart.debugSdkLibraries": true,
+    "git.openRepositoryInParentFolders": "never",
+    "files.autoSave": "afterDelay",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "explorer.confirmPasteNative": false,
+    "explorer.confirmDragAndDrop": false,
+    "editor.allowVariableFontsInAccessibilityMode": true,
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "workbench.colorTheme": "Darcula - Android Studio",
+    "chat.mcp.gallery.enabled": true,
+    "redhat.telemetry.enabled": true,
+    "editor.linkedEditing": true,
+    "editor.minimap.enabled": false,
+    "editor.rulers": [
+        {
+            "column": 80,
+            "color": "#00FF0010"
+        },
+        {
+            "column": 100,
+            "color": "#BDB76B15"
+        },
+        {
+            "column": 120,
+            "color": "#FA807219"
+        }
+    ],
+    "editor.unicodeHighlight.includeComments": true,
+    "workbench.colorCustomizations": {
+        "[Default Dark Modern]": {
+            "tab.activeBorderTop": "#00FF00",
+            "tab.unfocusedActiveBorderTop": "#00FF0088",
+            "textCodeBlock.background": "#00000055"
+        },
+        "editor.wordHighlightStrongBorder": "#FF6347",
+        "editor.wordHighlightBorder": "#FFD700",
+        "editor.selectionHighlightBorder": "#A9A9A9"
+    },
+    "workbench.editor.revealIfOpen": true,
+    "files.eol": "\n",
+    "[bat]": {
+        "files.eol": "\r\n"
+    },
+    "emmet.variables": {
+        "lang": "en"
+    },
+    "cSpell.diagnosticLevel": "Hint",
+    "trailing-spaces.backgroundColor": "rgba(255,0,0,0.1)",
+    "trailing-spaces.includeEmptyLines": false,
+    "terminal.integrated.tabs.hideCondition": "never",
+    "terminal.integrated.enablePersistentSessions": false,
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.debug.settings.hotCodeReplace": "auto",
+    "java.dependency.packagePresentation": "hierarchical",
+    "java.maxConcurrentBuilds": 8,
+    "java.sources.organizeImports.staticStarThreshold": 1,
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-25",
+            "path": "C:\\Users\\Brand\\.jdks\\openjdk-25.0.2",
+            "default": true
+        }
+    ],
+    "terminal.integrated.profiles.windows": {
+        "JavaSE-25 LTS": {
+            "overrideName": true,
+            "env": {
+                "PATH": "C:\\Users\\Brand\\.jdks\\openjdk-25.0.2\\bin;${env:PATH}",
+                "JAVA_TOOL_OPTIONS": "-Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8",
+                "JAVA_HOME": "C:\\Users\\Brand\\.jdks\\openjdk-25.0.2"
+            },
+            "path": "cmd",
+            "args": [
+                "/k",
+                "chcp",
+                "65001"
+            ]
+        }
+    },
+    "terminal.integrated.automationProfile.windows": {
+        "path": "cmd"
+    },
+    "terminal.integrated.defaultProfile.windows": "JavaSE-25 LTS",
+    "java.test.config": {
+        "vmArgs": [
+            "-Dstdout.encoding=UTF-8",
+            "-Dstderr.encoding=UTF-8"
+        ]
+    },
+    "terminal.integrated.env.windows": {
+        "JAVA_HOME": "C:\\Users\\Brand\\.jdks\\openjdk-25.0.2",
+        "PATH": "C:\\Users\\Brand\\.jdks\\openjdk-25.0.2\\bin;${env:PATH}"
+    },
+    "maven.terminal.customEnv": [
+        {
+            "environmentVariable": "JAVA_HOME",
+            "value": "C:\\Users\\Brand\\.jdks\\openjdk-25.0.2"
+        }
+    ],
+    "java.import.gradle.java.home": "C:\\Users\\Brand\\.jdks\\openjdk-25.0.2",
+    "maven.executable.path": "C:\\Users\\Brand\\AppData\\Roaming\\Code\\User\\globalStorage\\pleiades.java-extension-pack-jdk\\maven\\latest\\bin\\mvn",
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1"
+}

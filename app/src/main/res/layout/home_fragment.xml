@@ -1,0 +1,191 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </com.google.android.material.appbar.AppBarLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#192030"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/app_icon"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@mipmap/ic_launcher" />
+                <TextView
+                    android:id="@+id/app_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/app_name"
+                    android:textSize="30sp"
+                    android:textColor="#FFFFFF" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Design • Build • Debug"
+                    android:textSize="14sp"
+                    android:textColor="#EEEEEE" />
+                <TextView
+                    android:id="@+id/app_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Version 3.0 remake"
+                    android:textSize="12sp"
+                    android:textColor="#E0E0E0" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:padding="8dp"
+                android:background="#393E51"
+                android:orientation="horizontal" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp"
+                android:orientation="vertical">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/createNewProject"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="10dp"
+                    app:backgroundTint="#262D40"
+                    android:text="@string/create_new_project"
+                    android:textSize="12sp"
+                    app:iconPadding="16dp"
+                    app:iconGravity="start"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_baseline_add_24"
+                    style="?attr/materialIconButtonFilledTonalStyle" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/gitCloneRepo"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="10dp"
+                    app:backgroundTint="#262D40"
+                    android:text="@string/git_clone_repo"
+                    android:textSize="12sp"
+                    app:iconPadding="16dp"
+                    app:iconGravity="start"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_git"
+                    style="?attr/materialIconButtonFilledTonalStyle" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/importProject"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="10dp"
+                    app:backgroundTint="#262D40"
+                    android:text="@string/import_project"
+                    android:textSize="12sp"
+                    app:iconPadding="16dp"
+                    app:iconGravity="start"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_folder_zip"
+                    style="?attr/materialIconButtonFilledTonalStyle" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/openProject"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="10dp"
+                    app:backgroundTint="#262D40"
+                    android:text="@string/open_project"
+                    android:textSize="12sp"
+                    app:iconPadding="16dp"
+                    android:visibility="gone"
+                    app:iconGravity="start"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_open_project"
+                    style="?attr/materialIconButtonFilledTonalStyle" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/openProjectManager"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="10dp"
+                    app:backgroundTint="#262D40"
+                    android:text="@string/project_manager"
+                    android:textSize="12sp"
+                    app:iconPadding="16dp"
+                    app:iconGravity="start"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/round_folder_20"
+                    style="?attr/materialIconButtonFilledTonalStyle" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/configureSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="10dp"
+                    app:backgroundTint="#262D40"
+                    android:text="@string/configure_settings"
+                    android:textSize="12sp"
+                    app:iconPadding="16dp"
+                    app:iconGravity="start"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_settings"
+                    style="?attr/materialIconButtonFilledTonalStyle" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:padding="8dp"
+            android:background="#393E51"
+            android:orientation="horizontal" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="#192030"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Remake made by AppTech"
+                android:textSize="12sp"
+                android:textColor="#3868CC" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

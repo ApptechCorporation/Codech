@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- اسم التطبيق -->
+    <string name="app_name">كود أسيست برو</string>
+
+	<!-- شاشة الصفحة الرئيسية -->
+	<string name="create_new_project">إنشاء مشروع جديد</string>
+	<string name="git_clone_repo">استنساخ مستودع git</string>
+	<string name="open_existing_project">فتح مشروع موجود</string>
+	<string name="project_manager">مدير المشاريع</string>
+	<string name="import_project">استيراد مشروع</string>
+	<string name="configure_settings">تكوين الإعدادات</string>
+	<string name="choose_project">اختر مشروعاً</string>
+
+	<!-- الشاشة الرئيسية -->
+  	<string name="title_confirm_project_close">إغلاق المشروع</string>
+	<string name="msg_confirm_project_close">هل أنت متأكد أنك تريد إغلاق هذا المشروع؟</string>
+
+	<!-- مدير الملفات -->
+    <string name="text_title">العنوان</string>
+    <string name="text_description">الوصف</string>
+    <string name="text_button">الزر</string>
+    <string name="okay">حسناً</string>
+    <string name="importing_project">جاري استيراد المشروع…</string>
+    <string name="preparing_for_import">جاري التحضير للاستيراد…</string>
+    <string name="project_imported_successfully">تم استيراد المشروع بنجاح</string>
+    <string name="import_success">نجاح الاستيراد</string>
+    <string name="import_failed">فشل الاستيراد</string>
+    <string name="project_import_cancelled">تم إلغاء استيراد المشروع</string>
+    <string name="imported">تم الاستيراد</string>
+    <string name="project_already_exists">المشروع: %1$s موجود بالفعل</string>
+    <string name="exporting_project">جاري تصدير المشروع…</string>
+    <string name="close">إغلاق</string>
+    <string name="exporting">جاري التصدير</string>
+    <string name="project_exported_successfully">تم تصدير المشروع بنجاح</string>
+    <string name="export_success">نجاح التصدير</string>
+    <string name="export_failed">فشل التصدير</string>
+
+    <string name="add_new_library">إضافة مكتبة جديدة</string>
+	<string name="new_library">مكتبة جديدة</string>
+	<string name="project_properties">خصائص المشروع</string>
+	<string name="variants">المتغيرات (Variants)</string>
+	<string name="build_variants">متغيرات البناء</string>
+	<string name="switched_to_variant">تم الانتقال إلى متغير البناء</string>
+	<string name="create">إنشاء</string>
+	<string name="name">الاسم</string>
+	<string name="package_name">اسم الحزمة</string>
+	<string name="java_library">مكتبة Java</string>
+	<string name="android_library">مكتبة Android</string>
+
+	<!-- القائمة الرئيسية -->
+    <string name="hello_world">مرحباً بالعالم!</string>
+    <item name="paste" type="string">لصق</item>
+    <item name="copy" type="string">نسخ</item>
+    <item name="selectAll" formatted="true" type="string">تحديد الكل</item>
+    <item name="last" type="string">الأخير</item>
+    <item name="next" type="string">التالي</item>
+    <item name="replace" type="string">استبدال</item>
+    <item name="replaceAll" type="string">استبدال الكل</item>
+    <item name="replacement" type="string">المستبدل</item>
+    <item name="cancel" type="string">إلغاء</item>
+    <item name="text_to_search" type="string">النص المراد البحث عنه</item>
+
+ 	<string name="settings_project_title">المشروع</string>
+	<string name="settings_project_desc">تكوين المشروع</string>
+    <string name="project_title">مشروع مخصص</string>
+    <string name="open_custom_project_title">فتح مشروع مخصص</string>
+    <string name="open_custom_project_desc">إذا تم التفعيل، ستتمكن من فتح مشاريع من مواقع مختلفة، وبتبديل هذا سيتم إخفاء مدير المشاريع</string>
+     <string name="enable_custom_index_title">تفعيل الفهرس المخصص</string>
+	<string name="enable_custom_index_desc">إذا تم التفعيل، سيطلب منك CodeAssist اختيار ما تريد فهرسته في كل مرة قبل فتح المشروع</string>
+	<string name="enable_ca_logging_title">تفعيل سجلات التطبيق</string>
+	<string name="enable_ca_logging_des">هذا الخيار لمطوري CodeAssist فقط</string>
+
+	<string name="welcome_message">مرحباً بك في CodeAssist</string>
+    <item name="more" type="string">المزيد</item>
+	<item name="rename" type="string">إعادة تسمية</item>
+    <item name="remove" type="string">إزالة</item>
+	<item name="new_name" type="string">الاسم الجديد</item>
+	<item name="rename_success" type="string">نجحت إعادة التسمية</item>
+	<item name="copied_to_clipboard" type="string">تم النسخ إلى الحافظة</item>
+    <string name="add">إضافة</string>
+    <string name="added_successfully">تمت الإضافة بنجاح</string>
+    <string name="extract_icons">استخراج الأيقونات</string>
+    <string name="extract">استخراج</string>
+    <string name="confirm_extract">هل تريد استخراج جميع الأيقونات من CodeAssist؟</string>
+    <string name="extracting_icons">جاري استخراج الأيقونات</string>
+
+    <!-- عناوين التفضيلات -->
+    <string name="messages_header">الرسائل</string>
+    <string name="sync_header">المزامنة</string>
+
+    <!-- تفضيلات الرسائل -->
+    <string name="signature_title">توقيعك</string>
+    <string name="reply_title">إجراء الرد الافتراضي</string>
+
+    <!-- تفضيلات المزامنة -->
+    <string name="sync_title">مزامنة البريد الإلكتروني دورياً</string>
+    <string name="attachment_title">تحميل المرفقات الواردة</string>
+    <string name="attachment_summary_on">تحميل المرفقات للرسائل الواردة تلقائياً</string>
+    <string name="attachment_summary_off">تحميل المرفقات يدوياً فقط عند الطلب</string>
+
+
+    <!-- المعالج (Wizard) -->
+    <string name="wizard_next">التالي</string>
+    <string name="wizard_finish">إنهاء</string>
+    <string name="wizard_cancel">إلغاء</string>
+    <string name="wizard_templates">القوالب</string>
+    <string name="wizard_exit">خروج</string>
+    <string name="wizard_desc">اختر من قوالب الأنشطة (Activity)</string>
+    <string name="wizard_empty_templates">القوالب فارغة :(</string>
+    <string name="wizard_loading">جاري تحميل القوالب</string>
+    <string name="wizard_app_name">اسم التطبيق</string>
+    <string name="wizard_package_name">com.my.myapplication</string>
+    <string name="wizard_save_location">موقع الحفظ</string>
+    <string name="wizard_language">اللغة</string>
+    <string name="wizard_minimum_sdk">أدنى SDK</string>
+    <string name="wizard_create">إنشاء</string>
+    <string name="wizard_previous">السابق</string>
+    <string name="wizard_scoped_storage_info">بسبب قيود التخزين في أندرويد 11، يمكنك فقط حفظ الملفات في التخزين الداخلي للتطبيق.</string>
+    <string name="wizard_file_not_writable">المجلد غير قابل للكتابة، اختر موقعاً آخر</string>
+    <string name="wizard_path_exceeds">مسار الموقع يتجاوز 240 حرفاً.</string>
+    <string name="wizard_package_illegal">اسم الحزمة يحتوي على أحرف غير قانونية.</string>
+    <string name="wizard_package_too_short">اسم الحزمة قصير جداً.</string>
+    <string name="wizard_package_contains_spaces">لا يمكن لاسم الحزمة أن يحتوي على مسافات.</string>
+    <string name="wizard_error_name_empty">الاسم لا يمكن أن يكون فارغاً.</string>
+    <string name="wizard_error_name_illegal">الاسم لا يمكن أن يحتوي على أحرف غير قانونية</string>
+    <string name="wizard_package_empty">اسم الحزمة لا يمكن أن يكون فارغاً.</string>
+    <string name="wizard_select_min_sdk">اختر إصدار SDK أدنى.</string>
+    <string name="wizard_select_save_location">اختر موقع الحفظ</string>
+
+    <string name="menu_open_project">فتح وحدة</string>
+    <string name="menu_create_project">إنشاء وحدة</string>
+    <string name="menu_run">تشغيل</string>
+    <string name="menu_refresh">تحديث الوحدة</string>
+    <string name="menu_library_manager">مدير المكتبات</string>
+    <string name="menu_drawable_manager">مدير الرسومات</string>
+    <string name="menu_icon_manager">مدير الأيقونات</string>
+    <string name="menu_format">تنسيق</string>
+    <string name="menu_settings">الإعدادات</string>
+
+    <!-- التفضيلات -->
+    <string name="settings_title_application">التطبيق</string>
+    <string name="settings_desc_application">تفضيلات التطبيق العامة</string>
+    <string name="settings_title_editor">المحرر</string>
+    <string name="settings_desc_editor">تكوين المحرر</string>
+    <string name="title_activity_settings">الإعدادات</string>
+
+    <!-- إعدادات التطبيق -->
+    <string name="settings_theme_title">المظهر</string>
+    <string name="settings_theme_value_default">افتراضي النظام</string>
+    <string name="settings_theme_value_light">فاتح</string>
+    <string name="settings_theme_value_dark">داكن</string>
+
+    <!-- إعدادات المحرر -->
+    <string name="code_engine_title">محرك الإكمال</string>
+    <string name="settings_code_completions">تفعيل إكمال الكود</string>
+    <string name="settings_kotlin_completions">تفعيل إكمال الكود لـ Kotlin</string>
+    <string name="settings_kotlin_completions_desc">هذه الميزة لا تزال تجريبية وقد تكون بطيئة. تتطلب جهازاً قوياً.</string>
+    <string name="settings_case_insensitive_match_title">مطابقة غير حساسة لحالة الأحرف</string>
+    <string name="settings_case_insensitive_match_desc">اقتراح أسماء الأصناف ببادئة صغيرة.</string>
+    <string name="code_editor_error_highlight">تفعيل تمييز الأخطاء</string>
+
+    <string name="editor_settings_title">إعدادات محرر الكود</string>
+    <string name="editor_settings_wordwrap">وضع التفاف النص</string>
+    <string name="editor_delete_whitespaces">حذف المسافات البيضاء تلقائياً</string>
+    <string name="save">حفظ</string>
+    <string name="defaultString">افتراضي</string>
+    <string name="editor_scheme_title">مخطط ألوان المحرر</string>
+    <string name="editor_scheme_desc">تغيير مخطط الألوان</string>
+    <string name="diagnostic_detail_title">تفاصيل التشخيص</string>
+    <string name="diagnostic_detail_desc">سيظهر نافذة تفاصيل التشخيص في المحرر.</string>
+    <string name="change_scheme_dialog_title">الصق مسار ملف المظهر</string>
+	<string name="set_scheme_file_path">تعيين مسار ملف المخطط</string>
+    <string name="font_size_title">حجم الخط</string>
+    <string name="font_size_message">تعيين حجم خط المحرر</string>
+    <string name="font_size_summary">تحديد حجم الخط الافتراضي للمحرر</string>
+    <string name="kotlin_max_items_count_title">أقصى عدد لاقتراحات Kotlin</string>
+    <string name="kotlin_max_items_count_message">تعيين أقصى عدد لاقتراحات Kotlin (الافتراضي = 50)</string>
+    <string name="kotlin_max_items_count_summary">تحديد الحد الافتراضي لقائمة اقتراحات kotlin، كل إنقاص يعني أداء أفضل++</string>
+    <string name="parallel_backend_threads_title">خيوط الخلفية الموازية</string>
+    <string name="parallel_backend_threads_message">تعيين عدد خيوط إكمال Kotlin (الافتراضي = 10)</string>
+    <string name="parallel_backend_threads_summary">تحديد عدد الخيوط الافتراضي، كن حذراً</string>
+    <string name="keyboard_settings_title">لوحة المفاتيح</string>
+    <string name="keyboard_enable_suggestions_description">تفعيل اقتراحات لوحة المفاتيح</string>
+    <string name="settings_build_run_title">البناء والتشغيل</string>
+    <string name="settings_build_run_desc">تكوين إعدادات البناء والتنفيذ</string>
+    <string name="run_title">تشغيل</string>
+    <string name="settings_install_apk_title">مطالبة تثبيت APK</string>
+    <string name="settings_install_desc">إظهار مطالبة تثبيت APK بعد البناء الناجح.</string>
+
+    <string name="completion_settings_kotlin_title">Kotlin</string>
+    <string name="completion_settings_java_title">Java</string>
+    <string name="completion_java_target_version_title">الإصدار المستهدف</string>
+    <string name="completion_java_source_version_title">إصدار المصدر</string>
+    <string name="editor_tabs_settings_title">تبويبات المحرر</string>
+    <string name="editor_tab_unique_file_name">إظهار المجلد لأسماء الملفات غير الفريدة</string>
+    <string name="editor_tab_unique_file_name_summary">يجعل أسماء الملفات المعروضة فريدة من خلال إظهار المجلدات الأبوية إذا تم فتح ملفات بأسماء متطابقة.</string>
+
+    <!-- صفحة حول التطبيق -->
+    <string name="settings_about_us_title">من نحن</string>
+    <string name="settings_about_us_desc">مزيد من المعلومات حول المطورين.</string>
+    <string name="app_description">بيئة تطوير متكاملة قوية وخفيفة لتطوير تطبيقات أندرويد مباشرة في جيبك.</string>
+    <string name="app_version">الإصدار</string>
+    <string name="contact_group_title">اتصل بنا</string>
+    <string name="app_source_title">كود المصدر</string>
+    <string name="sketchub_team">فريق Sketchub</string>
+    <string name="community">المجتمع</string>
+    <string name="rate_us">قيمنا</string>
+
+	<!-- إعدادات Git -->
+	<string name="settings_git_title">التحكم في المصدر Git</string>
+	<string name="settings_git_desc">تكوين التحكم في المصدر Git</string>
+	<string name="git_title">Git</string>
+	<string name="git_user_name_title">اسم المستخدم</string>
+	<string name="git_user_desc">الاسم الكامل (يسجل مع الالتزامات)</string>
+	<string name="enter_full_name">أدخل الاسم الكامل</string>
+	<string name="git_user_email_title">بريد المستخدم الإلكتروني</string>
+	<string name="git_email_desc">البريد الإلكتروني (يسجل مع الالتزامات)</string>
+	<string name="enter_email">أدخل البريد الإلكتروني</string>
+
+    <!-- قائمة مدير الملفات -->
+    <string name="install">تثبيت</string>
+    <string name="error">خطأ</string>
+    <string name="error_resource_name_restriction">يجب أن تحتوي أسماء الموارد فقط على أحرف صغيرة (a–z) وأرقام (0–9) وشرطات سفلية.</string>
+    <string name="item_project">المشروع</string>
+	<string name="open_project">فتح المشروع</string>
+    <string name="dialog_create_class_title">إنشاء صنف</string>
+    <string name="create_class_dialog_class_name">اسم الصنف</string>
+    <string name="create_class_dialog_positive">إنشاء</string>
+    <string name="create_class_dialog_class_type">نوع الصنف</string>
+    <string name="create_class_dialog_invalid_name">اسم صنف غير صالح</string>
+
+    <string name="success">نجاح</string>
+    <string name="delete_success">تم الحذف بنجاح.</string>
+    <string name="dialog_confirm_delete">هل أنت متأكد أنك تريد حذف %1$s؟</string>
+    <string name="dialog_delete">حذف</string>
+    <string name="menu_preview_layout">معاينة التخطيط</string>
+
+    <string name="project_manager_alpha_notice_title">تنبيه نسخة ألفا</string>
+    <string name="project_manager_alpha_notice">CodeAssist لا يزال في مرحلة ألفا، قد تواجه تعطلات وأخطاء وميزات غير مكتملة.\nيمكنك الإبلاغ عن هذه المشكلات في https://github.com/tyron12233/CodeAssist/issues</string>
+    <string name="project_manager_save_location_title">اختر موقع الحفظ</string>
+    <string name="project_manager_permission_denied">تم رفض الإذن</string>
+    <string name="project_manager_button_request_again">إعادة الطلب</string>
+    <string name="project_manager_button_continue">متابعة</string>
+    <string name="project_manager_rationale_title">أذونات التخزين</string>
+    <string name="project_manager_button_allow">سماح</string>
+    <string name="project_manager_button_use_internal">استخدام التخزين الداخلي</string>
+    <string name="project_manager_permission_rationale">يحتاج التطبيق إلى أذونات التخزين من أجل حفظ ملفات الوحدة التي لن يتم حذفها عند إلغاء تثبيت التطبيق. بدلاً من ذلك، يمكنك اختيار حفظ ملفات الوحدة في التخزين الداخلي للتطبيق.</string>
+    <string name="project_manager_android11_notice">سيتم حفظ المشاريع في دليل التخزين الداخلي للتطبيق. انسخ وحداتك احتياطياً قبل إلغاء تثبيت التطبيق.</string>
+    <string name="project_manager_projects">المشاريع</string>
+    <string name="project_manager_empty">المشاريع فارغة</string>
+    <string name="project_manager_create_project">إنشاء وحدة</string>
+    <string name="project_path_menu_title">مسار المشاريع</string>
+    <string name="project_manager_null_projects">لم يتم العثور على مشاريع</string>
+    <string name="project_manager_suggestions">اقتراحات:\n\n  - إنشاء مشروع جديد\n  - تغيير مسار المشاريع</string>
+
+
+    <!-- خدمة المترجم -->
+    <string name="compilation_state_compiling">جاري البناء</string>
+    <string name="compilation_button_install">تثبيت</string>
+    <string name="compilation_result_success">نجح البناء</string>
+    <string name="compilation_result_failed">فشل البناء</string>
+
+    <!-- مدير المكتبات -->
+    <string name="library_manager_title">%1s مكتبات</string>
+    <string name="group_id">معرف المجموعة (Group Id)</string>
+    <string name="artifact_id">معرف الأداة (Artifact Id)</string>
+    <string name="version_name">اسم الإصدار</string>
+    <string name="menu_display_dependencies">قائمة التبعيات</string>
+    <string name="attributes_editor">محرر السمات</string>
+    <string name="attribute_value">قيمة السمة</string>
+    <string name="menu_add_libs_gradle">إضافة مكتبات من build.gradle</string>
+
+    <!-- محرر التخطيط -->
+    <string name="error_no_project_opened">لا يوجد مشروع مفتوح.</string>
+    <string name="dialog_confirm_save_title">حفظ في XML</string>
+    <string name="dialog_confirm_save_msg">هل تريد حفظ التخطيط؟</string>
+    <!-- مدير محرري الملفات -->
+    <string name="file_editor_selection_title">أي محرر تود أن تفتح؟</string>
+
+    <!-- تبويبات المحرر -->
+    <string name="menu_close_file">إغلاق</string>
+    <string name="menu_close_others">إغلاق الآخرين</string>
+    <string name="menu_close_all">إغلاق الكل</string>
+
+    <string name="menu_close">إغلاق</string>
+    <string name="error_dir_access">خطأ في الوصول إلى الدليل</string>
+
+    <!-- المحرر -->
+    <string name="editor_error_file">حدث خطأ أثناء قراءة الملف. لن يتم حفظ التغييرات.</string>
+
+    <!-- الجزء السفلي من المحرر -->
+    <string name="tab_build_logs_title">سجلات البناء</string>
+    <string name="tab_app_logs_title">سجلات التطبيق</string>
+    <string name="tab_ide_logs_title">سجلات البيئة</string>
+    <string name="tab_diagnostics_title">التشخيصات</string>
+
+	<!-- استنساخ GIT الرئيسي -->
+	<string name="git_clone">استنساخ (Clone)</string>
+	<string name="git_clone_repo_url">رابط المستودع (URL)</string>
+	<string name="git_clone_in_progress">جاري استنساخ المستودع</string>
+	<string name="cloned_successfully">تم الاستنساخ بنجاح</string>
+	<string name="git_clone_failed">فشل استنساخ مستودع git</string>
+    <string name="git_clone_cancled">تم إلغاء الاستنساخ</string>
+
+    <!-- GIT -->
+    <string name="added_to_staged">تمت إضافته إلى المرحلة (staged)</string>
+    <string name="all_files_added_to_staged">تمت إضافة جميع الملفات إلى المرحلة (staged)</string>
+    <string name="removed_from_index">تمت إزالته من الفهرس</string>
+    <string name="reset_changes_success">تمت إعادة تعيين التغييرات بنجاح</string>
+    <string name="remove_from_index">إزالة من الفهرس</string>
+    <string name="remove_from_index_force">إزالة من الفهرس (إجباري)</string>
+    <string name="remove_from_index_msg">هل أنت متأكد أنك تريد إزالة %1$s من الفهرس؟</string>
+    <string name="remove_from_index_force_msg">هل أنت متأكد أنك تريد إزالة %1$s من دليل العمل والفهرس؟</string>
+    <string name="title_fetching">جاري الجلب (Fetching)…</string>
+    <string name="fetch_completed">اكتمل الجلب</string>
+    <string name="commit_message">رسالة الالتزام (Commit)</string>
+    <string name="commit_changes">التزام بالتغييرات</string>
+    <string name="title_commit">الالتزام (Commit)</string>
+    <string name="empty_commit">رسالة الالتزام لا يمكن أن تكون فارغة</string>
+    <string name="set_user_and_password">يرجى تعيين اسم المستخدم والبريد الإلكتروني في الإعدادات</string>
+    <string name="reset_changes">إعادة تعيين التغييرات</string>
+    <string name="title_reset">إعادة تعيين</string>
+    <string name="all_changes_discarded">تم تجاهل جميع التغييرات</string>
+    <string name="reset_confirm">هل أنت متأكد أنك تريد تجاهل جميع التغييرات؟</string>
+    <string name="pulling">جاري السحب (Pulling)…</string>
+    <string name="pull_completed">اكتمل السحب</string>
+    <string name="pushing">جاري الدفع (Pushing)…</string>
+    <string name="push_completed">اكتمل الدفع</string>
+    <string name="branch_name">اسم الفرع (Branch)</string>
+    <string name="title_create_remove_branch">إنشاء/إزالة فرع</string>
+    <string name="empty_branch">اسم الفرع لا يمكن أن يكون فارغاً</string>
+    <string name="branch_created_successfully">تم إنشاء الفرع بنجاح</string>
+    <string name="branch_removed_successfully">تمت إزالة الفرع بنجاح</string>
+    <string name="remote_name">اسم المستودع البعيد (Remote)</string>
+    <string name="title_add_remove_remote">إضافة/إزالة مستودع بعيد</string>
+    <string name="empty_remote">اسم المستودع البعيد لا يمكن أن يكون فارغاً</string>
+    <string name="remote_added_successfully">تمت إضافة المستودع البعيد بنجاح</string>
+    <string name="remote_removed_successfully">تمت إزالة المستودع البعيد بنجاح</string>
+
+    <!-- SSH -->
+	<string name="keyName">اسم المفتاح</string>
+	<string name="generateKey">توليد مفتاح</string>
+	<string name="generate">توليد</string>
+	<string name="keyExists">المفتاح الخاص موجود بالفعل</string>
+	<string name="keyEmpty">اسم المفتاح لا يمكن أن يكون فارغاً</string>
+	<string name="keyLoaded">تم تحميل المفتاح</string>
+    <string name="ssh_key_manager">مدير مفاتيح SSH</string>
+    <string name="ssh_keys_manager_empty">مفاتيح SSH فارغة</string>
+    <string name="ssh_key_manager_null_ssh_keys">لم يتم العثور على مفاتيح SSH</string>
+
+    <!-- مدير الأيقونات -->
+    <string name="icon_manager_empty">مجلد الأيقونات فارغ</string>
+    <string name="icon_manager_null_icons">لم يتم العثور على أيقونات</string>
+
+    <!-- مدير الرسومات -->
+    <string name="drawable_manager_empty">مجلد الرسومات فارغ</string>
+    <string name="drawable_manager_null_drawables">لم يتم العثور على رسومات</string>
+
+    <string name="no_errors_found">لم يتم العثور على أخطاء</string>
+	<string name="errors_found">تم العثور على %1s أخطاء</string>
+    <string name="please_wait">يرجى الانتظار</string>
+    <string name="formatting">تنسيق الأكواد</string>
+
+    <string name="action_menu_build_release">بناء APK نسخة الإصدار</string>
+    <string name="action_menu_build_debug">بناء APK نسخة التصحيح</string>
+    <string name="action_menu_build_aab">بناء AAB</string>
+
+    <!-- إعدادات المترجم -->
+    <string name="compiler_title">المترجم</string>
+    <string name="settings_title_compiler">المترجم</string>
+    <string name="settings_desc_compiler">تكوين المترجم</string>
+    <string name="use_fast_jar_file_system_title">تنفيذ سريع لـ Jar FS</string>
+    <string name="use_fast_jar_file_system_desc">هذا الوضع التجريبي قد يسرع وقت البناء، لكن استخدمه بحذر</string>
+    <string name="use_psi_class_files_reading_title">قراءة ملفات الأصناف عبر PSI</string>
+    <string name="use_psi_class_files_reading_desc">استخدام واجهة هيكل البرنامج (PSI) لتحليل وقراءة ملفات .class بدلاً من نظام الملفات القياسي.</string>
+    <string name="use_fir_title">تفعيل FIR (مترجم K2)</string>
+    <string name="use_fir_desc">استخدم تمثيل الواجهة الأمامية الوسيط الجديد لتحسين سرعة البناء وأداء التحليل.</string>
+    <string name="use_fast_kotlin_lsp_title">استخدام Kotlin LSP السريع</string>
+    <string name="use_fast_kotlin_lsp_desc">إنه سريع ولكنه لا يدعم جميع ميزات اللغة</string>
+
+</resources>
