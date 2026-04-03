@@ -130,7 +130,6 @@ public class ApplicationLoader extends Application {
         new ApplicationSettingsFragment.ThemeProvider(this);
     int theme = provider.getThemeFromPreferences();
     AppCompatDelegate.setDefaultNightMode(theme);
-    DynamicColors.applyToActivitiesIfAvailable(this);
   }
 
   private void runStartup() {
