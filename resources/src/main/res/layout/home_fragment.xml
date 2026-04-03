@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_fragment"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.google.android.material.appbar.AppBarLayout
@@ -10,8 +11,8 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            android:background="?attr/colorPrimary"
+            android:layout_height="?attr/actionBarSize" />
     </com.google.android.material.appbar.AppBarLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +22,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#192030"
             android:orientation="vertical"
             android:layout_weight="1">
             <LinearLayout
@@ -42,32 +42,29 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Codech Studio"
-                    android:textSize="30sp"
-                    android:textColor="#FFFFFF" />
+                    android:textSize="30sp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Design • Build • Debug"
-                    android:textSize="12sp"
                     android:layout_marginBottom="16dp"
-                    android:textColor="#EEEEEE" />
+                    android:text="Design • Build • Debug"
+                    android:textSize="12sp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:orientation="vertical">
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/createNewProject"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:backgroundTint="#262D40"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/create_new_project"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
                     app:iconSize="32dp"
                     app:iconGravity="start"
-                    android:layout_marginBottom="8dp"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_baseline_add_24"
                     style="?attr/materialIconButtonFilledTonalStyle" />
@@ -75,87 +72,68 @@
                     android:id="@+id/importProject"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:backgroundTint="#262D40"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/import_project"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
                     app:iconGravity="start"
                     app:iconSize="32dp"
                     android:textAlignment="textStart"
-                    android:layout_marginBottom="8dp"
                     app:icon="@drawable/ic_folder_zip"
                     style="?attr/materialIconButtonFilledTonalStyle" />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/gitCloneRepo"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:backgroundTint="#262D40"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/git_clone_repo"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
                     app:iconGravity="start"
                     app:iconSize="32dp"
-                    android:layout_marginBottom="8dp"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_git"
                     style="?attr/materialIconButtonFilledTonalStyle" />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/openProject"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Meus Projetos"
+                    android:textSize="16sp" />
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    app:backgroundTint="#262D40"
-                    android:text="@string/open_project"
-                    android:textSize="14sp"
-                    app:iconPadding="16dp"
-                    android:visibility="gone"
-                    app:iconGravity="start"
-                    app:iconSize="32dp"
-                    android:layout_marginBottom="8dp"
-                    android:textAlignment="textStart"
-                    app:icon="@drawable/ic_open_project"
-                    style="?attr/materialIconButtonFilledTonalStyle" />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/openProjectManager"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/md_theme_dark_outline" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/open_project_list"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    app:backgroundTint="#262D40"
-                    android:text="@string/project_manager"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    tools:listitem="@layout/project_item" />
+                <TextView
+                    android:id="@+id/empty_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nenhum projeto encontrado"
                     android:textSize="14sp"
-                    app:iconPadding="16dp"
-                    app:iconGravity="start"
-                    app:iconSize="32dp"
-                    android:textAlignment="textStart"
-                    app:icon="@drawable/round_folder_20"
-                    style="?attr/materialIconButtonFilledTonalStyle" />
+                    android:gravity="center"
+                    android:padding="24dp"
+                    android:visibility="gone" />
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Meus Projetos"
-                android:textSize="16sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:textColor="#AEB5C5" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:background="#393E51" />
-            <FrameLayout
-                android:id="@+id/openProjectList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:padding="8dp"
-            android:background="#393E51"
             android:orientation="horizontal" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#192030"
             android:gravity="center_horizontal|center_vertical"
             android:orientation="horizontal">
             <TextView
@@ -169,7 +147,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:textColor="#393E51"
                 android:text="|"
                 android:textSize="20sp" />
             <TextView

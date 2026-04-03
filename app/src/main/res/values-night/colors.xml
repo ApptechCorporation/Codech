@@ -1,5 +1,7 @@
 <resources>
     <color name="seed">#01875F</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
     <!-- Primary - Verde Play Store -->
     <color name="md_theme_dark_primary">#6DD4A8</color>
