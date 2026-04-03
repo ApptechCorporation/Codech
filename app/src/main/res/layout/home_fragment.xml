@@ -21,7 +21,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#192030"
             android:orientation="vertical"
             android:layout_weight="1">
             <LinearLayout
@@ -42,15 +41,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Codech Studio"
-                    android:textSize="30sp"
-                    android:textColor="#FFFFFF" />
+                    android:textSize="30sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Design • Build • Debug"
                     android:textSize="12sp"
-                    android:layout_marginBottom="16dp"
-                    android:textColor="#EEEEEE" />
+                    android:layout_marginBottom="16dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,7 +58,7 @@
                     android:id="@+id/createNewProject"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:backgroundTint="#262D40"
+                    app:backgroundTint="@color/md_theme_dark_onBackground"
                     android:text="@string/create_new_project"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
@@ -75,7 +72,7 @@
                     android:id="@+id/importProject"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:backgroundTint="#262D40"
+                    app:backgroundTint="@color/md_theme_dark_onBackground"
                     android:text="@string/import_project"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
@@ -89,7 +86,7 @@
                     android:id="@+id/gitCloneRepo"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:backgroundTint="#262D40"
+                    app:backgroundTint="@color/md_theme_dark_onBackground"
                     android:text="@string/git_clone_repo"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
@@ -103,7 +100,7 @@
                     android:id="@+id/openProject"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:backgroundTint="#262D40"
+                    app:backgroundTint="@color/md_theme_dark_onBackground"
                     android:text="@string/open_project"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
@@ -118,7 +115,7 @@
                     android:id="@+id/openProjectManager"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:backgroundTint="#262D40"
+                    app:backgroundTint="@color/md_theme_dark_onBackground"
                     android:text="@string/project_manager"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
@@ -134,13 +131,12 @@
                 android:text="Meus Projetos"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:textColor="#AEB5C5" />
+                android:layout_marginBottom="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="10dp"
-                android:background="#393E51" />
+                android:background="@color/md_theme_dark_outline" />
             <FrameLayout
                 android:id="@+id/openProjectList"
                 android:layout_width="match_parent"
@@ -150,12 +146,11 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:padding="8dp"
-            android:background="#393E51"
+            android:background="@color/md_theme_dark_onBackground"
             android:orientation="horizontal" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#192030"
             android:gravity="center_horizontal|center_vertical"
             android:orientation="horizontal">
             <TextView
@@ -169,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:textColor="#393E51"
+                android:textColor="@color/md_theme_dark_outline"
                 android:text="|"
                 android:textSize="20sp" />
             <TextView
