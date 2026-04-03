@@ -3,44 +3,32 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
-    <!-- Primary - Verde Play Store -->
+    <!-- ===== TEMA ESCURO ===== -->
     <color name="md_theme_dark_primary">#6DD4A8</color>
     <color name="md_theme_dark_onPrimary">#00382A</color>
     <color name="md_theme_dark_primaryContainer">#00513D</color>
     <color name="md_theme_dark_onPrimaryContainer">#89F2C3</color>
-
-    <!-- Secondary -->
     <color name="md_theme_dark_secondary">#B2CCC0</color>
     <color name="md_theme_dark_onSecondary">#1D352D</color>
     <color name="md_theme_dark_secondaryContainer">#334B43</color>
     <color name="md_theme_dark_onSecondaryContainer">#CEE9DC</color>
-
-    <!-- Tertiary - Azul -->
     <color name="md_theme_dark_tertiary">#A3C9FE</color>
     <color name="md_theme_dark_onTertiary">#003063</color>
     <color name="md_theme_dark_tertiaryContainer">#1B478A</color>
     <color name="md_theme_dark_onTertiaryContainer">#D4E3FF</color>
-
-    <!-- Error -->
     <color name="md_theme_dark_error">#FFB4AB</color>
     <color name="md_theme_dark_onError">#690005</color>
     <color name="md_theme_dark_errorContainer">#93000A</color>
     <color name="md_theme_dark_onErrorContainer">#FFDAD6</color>
-
-    <!-- Background e Surface - Preto Play Store -->
     <color name="md_theme_dark_background">#1A1C1A</color>
     <color name="md_theme_dark_onBackground">#E2E3DE</color>
     <color name="md_theme_dark_surface">#1A1C1A</color>
     <color name="md_theme_dark_onSurface">#E2E3DE</color>
     <color name="md_theme_dark_surfaceVariant">#404943</color>
     <color name="md_theme_dark_onSurfaceVariant">#C0C9C1</color>
-
-    <!-- Inverse -->
     <color name="md_theme_dark_inverseSurface">#E2E3DE</color>
     <color name="md_theme_dark_inverseOnSurface">#2F312F</color>
     <color name="md_theme_dark_inversePrimary">#006C51</color>
-
-    <!-- Outros -->
     <color name="md_theme_dark_outline">#8A9390</color>
     <color name="md_theme_dark_outlineVariant">#404943</color>
     <color name="md_theme_dark_shadow">#000000</color>
