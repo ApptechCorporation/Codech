@@ -57,8 +57,6 @@ public class HomeFragment extends Fragment {
     private MaterialButton create_new_project;
     private MaterialButton clone_git_repository;
     private MaterialButton import_project;
-    private MaterialButton open_custom_project;
-    private MaterialButton open_project_manager;
     private TextView configure_settings;
     private TextView empty_message;
 
@@ -141,8 +139,6 @@ public class HomeFragment extends Fragment {
         create_new_project = view.findViewById(R.id.createNewProject);
         clone_git_repository = view.findViewById(R.id.gitCloneRepo);
         import_project = view.findViewById(R.id.importProject);
-        open_custom_project = view.findViewById(R.id.openProject);
-        open_project_manager = view.findViewById(R.id.openProjectManager);
         configure_settings = view.findViewById(R.id.configureSettings);
         mRecyclerView = view.findViewById(R.id.open_project_list);
         empty_message = view.findViewById(R.id.empty_message);
@@ -173,11 +169,6 @@ public class HomeFragment extends Fragment {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.setType("application/zip");
             documentPickerLauncher.launch(intent);
-        });
-
-        open_custom_project.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-            documentPickerLauncher2.launch(intent);
         });
 
         configure_settings.setOnClickListener(v ->

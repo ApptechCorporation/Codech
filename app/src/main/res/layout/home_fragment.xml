@@ -98,34 +98,6 @@
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_git"
                     style="?attr/materialIconButtonFilledTonalStyle" />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/openProject"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/open_project"
-                    android:textSize="14sp"
-                    app:backgroundTint="@color/md_theme_dark_onBackground"
-                    app:iconPadding="16dp"
-                    android:visibility="gone"
-                    app:iconGravity="start"
-                    app:iconSize="32dp"
-                    android:textAlignment="textStart"
-                    app:icon="@drawable/ic_open_project"
-                    style="?attr/materialIconButtonFilledTonalStyle" />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/openProjectManager"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="@string/project_manager"
-                    android:textSize="14sp"
-                    app:backgroundTint="@color/md_theme_dark_onBackground"
-                    app:iconPadding="16dp"
-                    app:iconGravity="start"
-                    app:iconSize="32dp"
-                    android:textAlignment="textStart"
-                    app:icon="@drawable/round_folder_20"
-                    style="?attr/materialIconButtonFilledTonalStyle" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
