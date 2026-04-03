@@ -82,7 +82,7 @@ public class ProjectManagerAdapter extends RecyclerView.Adapter<ProjectManagerAd
     FrameLayout root = new FrameLayout(parent.getContext());
     root.setLayoutParams(
         new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     final ViewHolder holder;
     if (viewType == TYPE_EMPTY) {
       holder = new EmptyViewHolder(root);

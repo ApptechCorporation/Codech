@@ -131,12 +131,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="15dp"
                     android:text="Meus Projetos"
                     android:textSize="16sp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="15dp"
+					android:layout_marginRight="15dp"
+					android:layout_marginBottom="10dp"
                     android:background="@color/md_theme_dark_outline" />
                 <FrameLayout
                     android:id="@+id/openProjectList"
