@@ -2,17 +2,19 @@ package com.tyron.code.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -21,24 +23,32 @@ import androidx.annotation.Nullable;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.transition.MaterialSharedAxis;
 import com.tyron.builder.project.Project;
 import com.tyron.code.tasks.git.GitCloneTask;
 import com.tyron.code.ui.project.ImportProjectProgressFragment;
-import com.tyron.code.ui.project.ProjectFragment;
+import com.tyron.code.ui.project.adapter.ProjectManagerAdapter;
 import com.tyron.code.ui.settings.SettingsActivity;
 import com.tyron.code.ui.wizard.WizardFragment;
 import com.tyron.common.SharedPreferenceKeys;
 import com.tyron.common.util.AndroidUtilities;
-import com.tyron.completion.progress.ProgressManager;
-import com.tyron.resources.R;
+import dev.mutwakil.codeassist.R;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 
 public class HomeFragment extends Fragment {
 
@@ -49,15 +59,13 @@ public class HomeFragment extends Fragment {
     private MaterialButton import_project;
     private MaterialButton open_custom_project;
     private MaterialButton open_project_manager;
-    
-    private FrameLayout open_project_list;
-
     private TextView configure_settings;
+    private TextView empty_message;
 
-    // ✅ PADRÃO CORRETO
+    private RecyclerView mRecyclerView;
+    private ProjectManagerAdapter mAdapter;
 
     private SharedPreferences mPreferences;
-    private boolean mShowDialogOnPermissionGrant;
     private ActivityResultLauncher<String[]> mPermissionLauncher;
 
     private final ActivityResultLauncher<
@@ -102,10 +110,8 @@ public class HomeFragment extends Fragment {
                 Uri uri = data.getData();
                 File file = new File(uri.getPath());
                 String[] split = file.getPath().split(":");
-
                 String path = Environment.getExternalStorageDirectory()
                                 .getAbsolutePath() + "/" + split[1];
-
                 openProject(new Project(new File(path)));
             }
         }
@@ -116,6 +122,14 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setExitTransition(new MaterialSharedAxis(MaterialSharedAxis.X, false));
         mPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.home_fragment, container, false);
     }
 
     @Override
@@ -130,14 +144,21 @@ public class HomeFragment extends Fragment {
         open_custom_project = view.findViewById(R.id.openProject);
         open_project_manager = view.findViewById(R.id.openProjectManager);
         configure_settings = view.findViewById(R.id.configureSettings);
-        open_project_list = view.findViewById(R.id.openProjectList);
+        mRecyclerView = view.findViewById(R.id.open_project_list);
+        empty_message = view.findViewById(R.id.empty_message);
 
-        showProjectManager();
+        mAdapter = new ProjectManagerAdapter();
+        mAdapter.setOnProjectSelectedListener(this::openProject);
+        mAdapter.setOnProjectLongClickListener(this::inflateProjectMenus);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        mRecyclerView.setAdapter(mAdapter);
+
+        loadProjects();
 
         create_new_project.setOnClickListener(v -> {
             WizardFragment wizardFragment = new WizardFragment();
             wizardFragment.setOnProjectCreatedListener(this::openProject);
-
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, wizardFragment)
@@ -159,37 +180,104 @@ public class HomeFragment extends Fragment {
             documentPickerLauncher2.launch(intent);
         });
 
-        configure_settings.setOnClickListener(v -> {
-            startActivity(new Intent(requireActivity(), SettingsActivity.class));
+        configure_settings.setOnClickListener(v ->
+                startActivity(new Intent(requireActivity(), SettingsActivity.class)));
+    }
+
+    private boolean inflateProjectMenus(View view, Project project) {
+        String[] options = {"Rename", "Delete", "Copy Path"};
+
+        new MaterialAlertDialogBuilder(requireContext())
+                .setItems(options, (dialog, which) -> {
+                    switch (which) {
+                        case 0: // Rename
+                            View v = LayoutInflater.from(requireContext())
+                                    .inflate(R.layout.base_textinput_layout, null);
+                            TextInputLayout layout = v.findViewById(R.id.textinput_layout);
+                            final Editable rename = layout.getEditText().getText();
+
+                            new MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle("Rename")
+                                    .setView(v)
+                                    .setPositiveButton("OK", (d, w) -> {
+                                        try {
+                                            File oldDir = project.getRootFile();
+                                            File newDir = new File(oldDir.getParent(), rename.toString());
+                                            oldDir.renameTo(newDir);
+                                            loadProjects();
+                                        } catch (Exception e) {
+                                            Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                    })
+                                    .setNegativeButton("Cancel", null)
+                                    .show();
+                            break;
+
+                        case 1: // Delete
+                            deleteProject(project);
+                            break;
+
+                        case 2: // Copy Path
+                            ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                            clipboard.setText(project.getRootFile().toString());
+                            Toast.makeText(requireContext(), "Copied", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }).show();
+
+        return true;
+    }
+
+    private void deleteProject(Project project) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                FileUtils.forceDelete(project.getRootFile());
+
+                if (!isAdded() || getActivity() == null) return;
+
+                requireActivity().runOnUiThread(() -> {
+                    if (!isAdded()) return;
+                    Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                    loadProjects();
+                });
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
-    public void showProjectManager() {
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(open_project_list.getId(), new ProjectFragment())
-                .commit();
-    }
+    private void loadProjects() {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            String path = Environment.getExternalStorageDirectory() + "/Codech/Projects";
+            File projectDir = new File(path);
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_fragment, container, false);
-    }
+            if (!projectDir.exists()) projectDir.mkdirs();
 
-    private void setSavePath(String path) {
-        mPreferences.edit()
-                .putString(SharedPreferenceKeys.PROJECT_SAVE_PATH, path)
-                .apply();
-    }
+            File[] dirs = projectDir.listFiles(File::isDirectory);
+            List<Project> list = new ArrayList<>();
 
-    private void savePath() {
-        String path = Environment.getExternalStorageDirectory() + "/Codech/Projects";
-        File file = new File(path);
-        if (!file.exists()) file.mkdirs();
-        setSavePath(path);
+            if (dirs != null) {
+                for (File dir : dirs) {
+                    list.add(new Project(dir, "app"));
+                }
+            }
+
+            if (!isAdded() || getActivity() == null) return;
+
+            requireActivity().runOnUiThread(() -> {
+                if (!isAdded()) return;
+                mAdapter.submitList(list);
+
+                if (list.isEmpty()) {
+                    empty_message.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                } else {
+                    empty_message.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                }
+            });
+        });
     }
 
     private void openProject(Project project) {
@@ -200,6 +288,12 @@ public class HomeFragment extends Fragment {
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void setSavePath(String path) {
+        mPreferences.edit()
+                .putString(SharedPreferenceKeys.PROJECT_SAVE_PATH, path)
+                .apply();
     }
 
     private void requestPermissions() {
