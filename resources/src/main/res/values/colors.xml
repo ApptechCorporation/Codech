@@ -1,42 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorAccent">#3767CD</color>
-    <color name="colorPrimary">#3767CD</color>
-    <color name="colorSecondary">#3767CD</color>
-    <color name="colorOnSecondary">@android:color/white</color>
-    <color name="colorBackground">#191F2F</color>
-    <color name="colorSurface">#191F2F</color>
-    <color name="colorControlNormal">#FFEAEAEA</color>
-    <color name="textActionNameColor">@android:color/tertiary_text_light</color>
-    <color name="white">#FFEAEAEA</color>
-	<color name="black">#00000000</color>
-	
-    <color name="md_theme_primary">#B22D00</color>
-    <color name="md_theme_onPrimary">#FFFFFF</color>
-    <color name="md_theme_primaryContainer">#FFDACF</color>
-    <color name="md_theme_onPrimaryContainer">#3C0800</color>
-    <color name="md_theme_secondary">#3767CD</color>
-    <color name="md_theme_onSecondary">#FFFFFF</color>
-    <color name="md_theme_secondaryContainer">#FFDCBB</color>
-    <color name="md_theme_onSecondaryContainer">#2D1600</color>
-    <color name="md_theme_tertiary">#3767CD</color>
-    <color name="md_theme_onTertiary">#FFFFFF</color>
-    <color name="md_theme_tertiaryContainer">#3767CD</color>
-    <color name="md_theme_onTertiaryContainer">#001F24</color>
-    <color name="md_theme_error">#BA1B1B</color>
-    <color name="md_theme_errorContainer">#FFDAD4</color>
-    <color name="md_theme_onError">#FFFFFF</color>
-    <color name="md_theme_onErrorContainer">#410001</color>
-    <color name="md_theme_background">#FCFCFC</color>
-    <color name="md_theme_onBackground">#191F2F</color>
-    <color name="md_theme_surface">#FCFCFC</color>
-    <color name="md_theme_onSurface">#191F2F</color>
-    <color name="md_theme_surfaceVariant">#E6E0EC</color>
-    <color name="md_theme_onSurfaceVariant">#48454F</color>
-    <color name="md_theme_outline">#79767F</color>
-    <color name="md_theme_inverseOnSurface">#FAEEEF</color>
-    <color name="md_theme_inverseSurface">#352F30</color>
-    <color name="md_theme_inversePrimary">#3767CD</color>
-    <color name="md_theme_shadow">#191F2F</color>
-    <color name="md_theme_primaryInverse">#3767CD</color>
+    <color name="seed">#01875F</color>
+
+    <!-- Primary - Verde Play Store -->
+    <color name="md_theme_light_primary">#006C51</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#89F2C3</color>
+    <color name="md_theme_light_onPrimaryContainer">#00201A</color>
+
+    <!-- Secondary -->
+    <color name="md_theme_light_secondary">#4D6358</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#CEE9DC</color>
+    <color name="md_theme_light_onSecondaryContainer">#082019</color>
+
+    <!-- Tertiary - Azul -->
+    <color name="md_theme_light_tertiary">#1B5FA8</color>
+    <color name="md_theme_light_onTertiary">#FFFFFF</color>
+    <color name="md_theme_light_tertiaryContainer">#D4E3FF</color>
+    <color name="md_theme_light_onTertiaryContainer">#001C3D</color>
+
+    <!-- Error -->
+    <color name="md_theme_light_error">#BA1A1A</color>
+    <color name="md_theme_light_onError">#FFFFFF</color>
+    <color name="md_theme_light_errorContainer">#FFDAD6</color>
+    <color name="md_theme_light_onErrorContainer">#410002</color>
+
+    <!-- Background e Surface - Branco Play Store -->
+    <color name="md_theme_light_background">#FBFDF8</color>
+    <color name="md_theme_light_onBackground">#191C1A</color>
+    <color name="md_theme_light_surface">#FBFDF8</color>
+    <color name="md_theme_light_onSurface">#191C1A</color>
+    <color name="md_theme_light_surfaceVariant">#DBE5DE</color>
+    <color name="md_theme_light_onSurfaceVariant">#404943</color>
+
+    <!-- Inverse -->
+    <color name="md_theme_light_inverseSurface">#2E312F</color>
+    <color name="md_theme_light_inverseOnSurface">#EFF1ED</color>
+    <color name="md_theme_light_inversePrimary">#6DD4A8</color>
+
+    <!-- Outros -->
+    <color name="md_theme_light_outline">#707972</color>
+    <color name="md_theme_light_outlineVariant">#BFC9C1</color>
+    <color name="md_theme_light_shadow">#000000</color>
+    <color name="md_theme_light_surfaceTint">#006C51</color>
+    <color name="md_theme_light_scrim">#000000</color>
 </resources>

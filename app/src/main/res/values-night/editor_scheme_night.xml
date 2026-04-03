@@ -11,15 +11,15 @@
         <item name="xmlAttributeValue">#629755</item>
         <item name="htmlTag">#3766CD</item>
         <item name="identifierName">#FAFAFA</item>
-        <item name="blockLineColor">@color/md_theme_dark_outline</item>
-        <item name="textNormal">@color/white</item>
+        <item name="blockLineColor">?attr/colorOutline</item>
+        <item name="textNormal">?attr/colorOnBackground</item>
 
-        <item name="wholeBackground">@color/md_theme_dark_background</item>
-        <item name="completionPanelBackground">@color/md_theme_dark_primary</item>
-        <item name="completionPanelStrokeColor">@color/md_theme_dark_primary</item>
+        <item name="wholeBackground">?</item>
+        <item name="completionPanelBackground">?attr/colorOutline</item>
+        <item name="completionPanelStrokeColor">?attr/colorOutline</item>
 
-        <item name="lineNumberBackground">@color/md_theme_dark_onTertiaryContainer</item>
-        <item name="lineNumberTextColor">@color/md_theme_dark_onSecondaryContainer  </item>
-        <item name="lineNumberDividerColor">@color/md_theme_dark_onTertiaryContainer</item>
+        <item name="lineNumberBackground">?attr/colorOnBackground</item>
+        <item name="lineNumberTextColor">?attr/colorOnBackground</item>
+        <item name="lineNumberDividerColor">?attr/colorOnBackground</item>
     </style>
 </resources>

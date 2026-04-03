@@ -1,33 +1,47 @@
 <resources>
-    <color name="seed">#30A270</color>
-    <color name="md_theme_dark_primary">#30A270</color>
-    <color name="md_theme_dark_onPrimary">#FFFFFF</color>
-    <color name="md_theme_dark_primaryContainer">#30A270</color>
-    <color name="md_theme_dark_onPrimaryContainer">#1D1D1D</color>
-    <color name="md_theme_dark_secondary">#30A270</color>
-    <color name="md_theme_dark_onSecondary">#1D1D1D</color>
-    <color name="md_theme_dark_secondaryContainer">#1D1D1D</color>
-    <color name="md_theme_dark_onSecondaryContainer">#FFFFFF</color>
-    <color name="md_theme_dark_tertiary">#EFB8C8</color>
-    <color name="md_theme_dark_onTertiary">#492532</color>
-    <color name="md_theme_dark_tertiaryContainer">#633B48</color>
-    <color name="md_theme_dark_onTertiaryContainer">#B0B0B0</color>
-    <color name="md_theme_dark_error">#F2B8B5</color>
-    <color name="md_theme_dark_onError">#601410</color>
-    <color name="md_theme_dark_errorContainer">#8C1D18</color>
-    <color name="md_theme_dark_onErrorContainer">#FFFFFF</color>
-    <color name="md_theme_dark_outline">#3A3A3A</color>
-    <color name="md_theme_dark_background">#1D1D1D</color>
-    <color name="md_theme_dark_onBackground">#2A2A2A</color>
-    <color name="md_theme_dark_surface">#1D1D1D</color>
-    <color name="md_theme_dark_onSurface">#FFFFFF</color>
-    <color name="md_theme_dark_surfaceVariant">#1C1C1C</color>
-    <color name="md_theme_dark_onSurfaceVariant">#FFFFFF</color>
-    <color name="md_theme_dark_inverseSurface">#FFFFFF</color>
-    <color name="md_theme_dark_inverseOnSurface">#1D1D1D</color>
-    <color name="md_theme_dark_inversePrimary">#30A270</color>
-    <color name="md_theme_dark_shadow">#1D1D1D</color>
-    <color name="md_theme_dark_surfaceTint">#30A270</color>
-    <color name="md_theme_dark_outlineVariant">#151C22</color>
-    <color name="md_theme_dark_scrim">#BEBEBE</color>
+    <color name="seed">#01875F</color>
+
+    <!-- Primary - Verde Play Store -->
+    <color name="md_theme_dark_primary">#6DD4A8</color>
+    <color name="md_theme_dark_onPrimary">#00382A</color>
+    <color name="md_theme_dark_primaryContainer">#00513D</color>
+    <color name="md_theme_dark_onPrimaryContainer">#89F2C3</color>
+
+    <!-- Secondary -->
+    <color name="md_theme_dark_secondary">#B2CCC0</color>
+    <color name="md_theme_dark_onSecondary">#1D352D</color>
+    <color name="md_theme_dark_secondaryContainer">#334B43</color>
+    <color name="md_theme_dark_onSecondaryContainer">#CEE9DC</color>
+
+    <!-- Tertiary - Azul -->
+    <color name="md_theme_dark_tertiary">#A3C9FE</color>
+    <color name="md_theme_dark_onTertiary">#003063</color>
+    <color name="md_theme_dark_tertiaryContainer">#1B478A</color>
+    <color name="md_theme_dark_onTertiaryContainer">#D4E3FF</color>
+
+    <!-- Error -->
+    <color name="md_theme_dark_error">#FFB4AB</color>
+    <color name="md_theme_dark_onError">#690005</color>
+    <color name="md_theme_dark_errorContainer">#93000A</color>
+    <color name="md_theme_dark_onErrorContainer">#FFDAD6</color>
+
+    <!-- Background e Surface - Preto Play Store -->
+    <color name="md_theme_dark_background">#1A1C1A</color>
+    <color name="md_theme_dark_onBackground">#E2E3DE</color>
+    <color name="md_theme_dark_surface">#1A1C1A</color>
+    <color name="md_theme_dark_onSurface">#E2E3DE</color>
+    <color name="md_theme_dark_surfaceVariant">#404943</color>
+    <color name="md_theme_dark_onSurfaceVariant">#C0C9C1</color>
+
+    <!-- Inverse -->
+    <color name="md_theme_dark_inverseSurface">#E2E3DE</color>
+    <color name="md_theme_dark_inverseOnSurface">#2F312F</color>
+    <color name="md_theme_dark_inversePrimary">#006C51</color>
+
+    <!-- Outros -->
+    <color name="md_theme_dark_outline">#8A9390</color>
+    <color name="md_theme_dark_outlineVariant">#404943</color>
+    <color name="md_theme_dark_shadow">#000000</color>
+    <color name="md_theme_dark_surfaceTint">#6DD4A8</color>
+    <color name="md_theme_dark_scrim">#000000</color>
 </resources>

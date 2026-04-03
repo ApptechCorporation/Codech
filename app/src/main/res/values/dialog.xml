@@ -4,12 +4,12 @@
 		<item name="colorOnSurface">#FFFEFEFE</item>
 		<item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
 		<item name="buttonBarNegativeButtonStyle">@style/PositiveButtonStyle</item>
-		<item name="android:windowBackground">@color/colorSurface</item>
+		<item name="android:windowBackground">?attr/android:colorBackground</item>
 	</style>
 
 	
 	<style name="PositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button">
-		<item name="android:textColor">@color/colorPrimary</item>
+		<item name="android:textColor">?attr/colorSurfaceVariant</item>
 		<item name="android:background">@android:color/transparent</item>
 	</style>
 

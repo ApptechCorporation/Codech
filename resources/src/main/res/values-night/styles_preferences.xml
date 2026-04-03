@@ -34,9 +34,9 @@
     <style name="Widget.CodeAssist.CardView" parent="Widget.Material3.CardView.Elevated">
         <item name="cardCornerRadius">15dp</item>
         <item name="cardElevation">0dp</item>
-        <item name="cardBackgroundColor">@color/md_theme_background</item>
+        <item name="cardBackgroundColor">?attr/colorOnSecondary</item>
         <item name="minHeight">?android:attr/listPreferredItemHeightSmall</item>
-        <item name="android:background">@color/md_theme_background</item>
+        <item name="android:background">?attr/colorOnSecondary</item>
         <item name="android:focusable">true</item>
         <item name="android:layout_marginHorizontal" tools:targetApi="o">8dp</item>
         <item name="android:layout_marginLeft">8dp</item>

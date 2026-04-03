@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="DefaultEditorColorScheme">
-        <item name="keyword">@color/black</item>
-        <item name="operator">@color/black</item>
-        <item name="wholeBackground">?attr/backgroundColor</item>
-        <item name="textNormal">@color/black</item>
-        <item name="completionPanelBackground">@color/white</item>
+        <item name="keyword">?attr/android:colorBackground</item>
+        <item name="operator">?attr/android:colorBackground</item>
+        <item name="wholeBackground">?attr/android:colorBackground</item>
+        <item name="textNormal">?attr/android:colorBackground</item>
+        <item name="completionPanelBackground">?attr/colorOnSecondary</item>
     </style>
 
     <style name="EditorColorSchemeLight" parent="DefaultEditorColorScheme">
@@ -17,11 +17,11 @@
         <item name="functionName">#00627A</item>
         <item name="xmlAttributeName">#174AD4</item>
         <item name="xmlAttributeValue">#067D17</item>
-        <item name="identifierName">@color/black</item>
+        <item name="identifierName">?attr/android:colorBackground</item>
         <item name="htmlTag">#000080</item>
 
-        <item name="wholeBackground">?attr/backgroundColor</item>
-        <item name="completionPanelBackground">?attr/colorSurface</item>
-        <item name="completionPanelStrokeColor">?attr/dividerColor</item>
+        <item name="wholeBackground">?attr/android:colorBackground</item>
+        <item name="completionPanelBackground">?attr/colorOnSurface</item>
+        <item name="completionPanelStrokeColor">?attr/colorOnSurface</item>
     </style>
 </resources>
