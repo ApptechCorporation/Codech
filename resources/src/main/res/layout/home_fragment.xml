@@ -34,6 +34,7 @@
                     android:id="@+id/app_icon"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
+                    app:shapeAppearance="@style/RoundedTemplates"
                     android:layout_marginTop="16dp"
                     android:src="@mipmap/ic_launcher" />
                 <TextView
@@ -58,39 +59,45 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/createNewProject"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="5dp"
                     android:text="@string/create_new_project"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
-                    app:iconSize="32dp"
+                    app:iconSize="25dp"
+                    app:cornerRadius="10dp"
                     app:iconGravity="start"
+                    app:iconTint="?attr/colorPrimary"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_baseline_add_24"
                     style="?attr/materialIconButtonFilledTonalStyle" />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/importProject"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="5dp"
                     android:text="@string/import_project"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
                     app:iconGravity="start"
-                    app:iconSize="32dp"
+                    app:iconTint="?attr/colorPrimary"
+                    app:cornerRadius="10dp"
+                    app:iconSize="25dp"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_folder_zip"
                     style="?attr/materialIconButtonFilledTonalStyle" />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/gitCloneRepo"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="70dp"
+                    app:cornerRadius="10dp"
                     android:layout_marginBottom="5dp"
                     android:text="@string/git_clone_repo"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
                     app:iconGravity="start"
-                    app:iconSize="32dp"
+                    app:iconSize="25dp"
+                    app:iconTint="?attr/colorPrimary"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_git"
                     style="?attr/materialIconButtonFilledTonalStyle" />
@@ -108,7 +115,7 @@
                     android:background="?attr/colorOutline"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/open_project_list"
                     android:layout_width="match_parent"
@@ -137,6 +144,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:orientation="horizontal">
             <TextView
+                android:id="@+/remake_apptech"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
@@ -148,7 +156,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="|"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
             <TextView
                 android:id="@+id/configureSettings"
                 android:layout_width="wrap_content"

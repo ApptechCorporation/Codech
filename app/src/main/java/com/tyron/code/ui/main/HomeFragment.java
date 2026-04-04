@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
     private MaterialButton import_project;
     private TextView configure_settings;
     private TextView empty_message;
+    private TextView remakeApptech;
 
     private RecyclerView mRecyclerView;
     private ProjectManagerAdapter mAdapter;
@@ -142,6 +143,7 @@ public class HomeFragment extends Fragment {
         configure_settings = view.findViewById(R.id.configureSettings);
         mRecyclerView = view.findViewById(R.id.open_project_list);
         empty_message = view.findViewById(R.id.empty_message);
+        remakeApptech = view.findViewById(R.id.remake_apptech);
 
         mAdapter = new ProjectManagerAdapter();
         mAdapter.setOnProjectSelectedListener(this::openProject);
@@ -173,6 +175,12 @@ public class HomeFragment extends Fragment {
 
         configure_settings.setOnClickListener(v ->
                 startActivity(new Intent(requireActivity(), SettingsActivity.class)));
+
+        remakeApptech.setOnClickListener(v -> {
+            Intent remake = new Intent(Intent.ACTION_VIEW);
+            remake.setData(Uri.parse("https://t.me/ApptechIDE"));
+            startActivity(remake);
+        });
     }
 
     private boolean inflateProjectMenus(View view, Project project) {

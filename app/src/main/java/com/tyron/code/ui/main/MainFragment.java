@@ -73,531 +73,527 @@ import org.jetbrains.kotlin.com.intellij.openapi.util.Key;
 
 public class MainFragment extends Fragment implements ProjectManager.OnProjectOpenListener {
 
-  public static final String REFRESH_TOOLBAR_KEY = "refreshToolbar";
+    public static final String REFRESH_TOOLBAR_KEY = "refreshToolbar";
 
-  public static final Key<CompileCallback> COMPILE_CALLBACK_KEY = Key.create("compileCallback");
-  public static final Key<IndexCallback> INDEX_CALLBACK_KEY = Key.create("indexCallbackKey");
-  public static final Key<MainViewModel> MAIN_VIEW_MODEL_KEY = Key.create("mainViewModel");
-  SharedPreferences sharedPreferences = ApplicationLoader.getDefaultPreferences();
+    public static final Key<CompileCallback> COMPILE_CALLBACK_KEY = Key.create("compileCallback");
+    public static final Key<IndexCallback> INDEX_CALLBACK_KEY = Key.create("indexCallbackKey");
+    public static final Key<MainViewModel> MAIN_VIEW_MODEL_KEY = Key.create("mainViewModel");
+    SharedPreferences sharedPreferences = ApplicationLoader.getDefaultPreferences();
 
-  private Handler mHandler;
-  static final float END_SCALE = 0.7f;
-  FragmentContainerView contentView;
+    private Handler mHandler;
+    static final float END_SCALE = 0.7f;
+    FragmentContainerView contentView;
 
-  public static MainFragment newInstance(@NonNull String projectPath, @NonNull String rootName) {
-    Bundle bundle = new Bundle();
-    bundle.putString("project_path", projectPath);
-    bundle.putString("root_name", rootName);
-    MainFragment fragment = new MainFragment();
-    fragment.setArguments(bundle);
+    public static MainFragment newInstance(@NonNull String projectPath, @NonNull String rootName) {
+        Bundle bundle = new Bundle();
+        bundle.putString("project_path", projectPath);
+        bundle.putString("root_name", rootName);
+        MainFragment fragment = new MainFragment();
+        fragment.setArguments(bundle);
 
-    return fragment;
-  }
+        return fragment;
+    }
 
-  private LogViewModel mLogViewModel;
-  private MainViewModel mMainViewModel;
-  private FileViewModel mFileViewModel;
+    private LogViewModel mLogViewModel;
+    private MainViewModel mMainViewModel;
+    private FileViewModel mFileViewModel;
 
-  private ProjectManager mProjectManager;
-  private View mRoot;
-  private Toolbar mToolbar;
-  private LinearProgressIndicator mProgressBar;
-  private BroadcastReceiver mLogReceiver;
+    private ProjectManager mProjectManager;
+    private View mRoot;
+    private Toolbar mToolbar;
+    private LinearProgressIndicator mProgressBar;
+    private BroadcastReceiver mLogReceiver;
 
-  // Referências ao painel lateral e ao overlay
-  private View mNavPanel;
-  private View mNavOverlay;
+    // Referências ao painel lateral e ao overlay
+    private View mNavPanel;
+    private View mNavOverlay;
 
-  private final OnBackPressedCallback onBackPressedCallback =
-      new OnBackPressedCallback(true) {
+    private final OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
         @Override
         public void handleOnBackPressed() {
-          if (mNavPanel != null && mNavPanel.getVisibility() == View.VISIBLE) {
-            mMainViewModel.setDrawerState(false);
-          } else {
-            showExitDialog();
-          }
-        }
-      };
-
-  private Project mProject;
-  private CompilerServiceConnection mServiceConnection;
-  private IndexServiceConnection mIndexServiceConnection;
-
-  private final CompileCallback mCompileCallback = this::compile;
-  private final IndexCallback mIndexCallback = this::openProject;
-
-  public MainFragment() {}
-
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setEnterTransition(new MaterialSharedAxis(MaterialSharedAxis.X, true));
-    setExitTransition(new MaterialSharedAxis(MaterialSharedAxis.X, false));
-
-    requireActivity().getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
-
-    String projectPath = requireArguments().getString("project_path");
-    String rootName = requireArguments().getString("root_name");
-
-    sharedPreferences
-        .edit()
-        .putString(SharedPreferenceKeys.SAVED_PROJECT_ROOT_NAME, rootName)
-        .apply();
-    sharedPreferences
-        .edit()
-        .putString(SharedPreferenceKeys.SAVED_PROJECT_PATH, projectPath)
-        .apply();
-
-    mProject = new Project(new File(projectPath), rootName);
-    mProjectManager = ProjectManager.getInstance();
-    mProjectManager.addOnProjectOpenListener(this);
-    mLogViewModel = new ViewModelProvider(requireActivity()).get(LogViewModel.class);
-    mMainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-    mFileViewModel = new ViewModelProvider(requireActivity()).get(FileViewModel.class);
-    mIndexServiceConnection = new IndexServiceConnection(mMainViewModel, mLogViewModel);
-    mServiceConnection = new CompilerServiceConnection(mMainViewModel, mLogViewModel);
-  }
-
-  @Override
-  public View onCreateView(
-      LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mRoot = inflater.inflate(R.layout.main_fragment, container, false);
-
-    mProgressBar = mRoot.findViewById(R.id.progressbar);
-    mProgressBar.setIndeterminate(true);
-    mProgressBar.setVisibility(View.GONE);
-
-    mToolbar = mRoot.findViewById(R.id.toolbar);
-    contentView = mRoot.findViewById(R.id.root);
-    mToolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
-    UiUtilsKt.addSystemWindowInsetToPadding(mToolbar, false, true, false, false);
-
-    getChildFragmentManager()
-        .setFragmentResultListener(
-            REFRESH_TOOLBAR_KEY, getViewLifecycleOwner(), (key, __) -> refreshToolbar());
-
-    refreshToolbar();
-
-    if (savedInstanceState != null) {
-      restoreViewState(savedInstanceState);
-    }
-    return mRoot;
-  }
-
-  @SuppressLint("RtlHardcoded")
-  @Override
-  public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-
-    mNavPanel = view.findViewById(R.id.nav_root);
-    mNavOverlay = view.findViewById(R.id.nav_overlay);
-
-    if (mNavPanel != null) {
-      mToolbar.setNavigationOnClickListener(
-          v -> {
-            boolean isOpen =
-                Boolean.TRUE.equals(mMainViewModel.getDrawerState().getValue());
-            mMainViewModel.setDrawerState(!isOpen);
-          });
-
-      if (mNavOverlay != null) {
-        mNavOverlay.setOnClickListener(v -> mMainViewModel.setDrawerState(false));
-      }
-    } else {
-      mToolbar.setNavigationIcon(null);
-    }
-
-    File root;
-    if (mProject != null) {
-      root = mProject.getRootFile();
-    } else {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        root = requireActivity().getExternalFilesDir(null);
-      } else {
-        root = Environment.getExternalStorageDirectory();
-      }
-    }
-    mFileViewModel.refreshNode(root);
-
-    if (!mProject.equals(mProjectManager.getCurrentProject())) {
-      mRoot.postDelayed(() -> openProject(mProject), 200);
-    }
-
-    if (!mProject.equals(mProjectManager.getCurrentProject())) {
-      mMainViewModel.setFiles(new ArrayList<>());
-      mLogViewModel.clear(LogViewModel.BUILD_LOG);
-    }
-    mMainViewModel
-        .isIndexing()
-        .observe(
-            getViewLifecycleOwner(),
-            indexing -> {
-              mProgressBar.setVisibility(indexing ? View.VISIBLE : View.GONE);
-              CompletionEngine.setIndexing(indexing);
-              refreshToolbar();
-            });
-
-    mMainViewModel
-        .getDrawerState()
-        .observe(
-            getViewLifecycleOwner(),
-            isOpen -> {
-              if (mNavPanel != null) {
-                if (isOpen) {
-                  showNavPanel();
-                } else {
-                  hideNavPanel();
-                }
-              }
-            });
-
-    mHandler =
-        new Handler() {
-          @Override
-          public void publish(LogRecord record) {
-            Level level = record.getLevel();
-            if (Level.WARNING.equals(level)) {
-              mLogViewModel.w(LogViewModel.IDE, record.getMessage());
-            } else if (Level.SEVERE.equals(level)) {
-              mLogViewModel.e(LogViewModel.IDE, record.getMessage());
+            if (mNavPanel != null && mNavPanel.getVisibility() == View.VISIBLE) {
+                mMainViewModel.setDrawerState(false);
             } else {
-              mLogViewModel.d(LogViewModel.IDE, record.getMessage());
+                showExitDialog();
             }
-          }
+        }
+    };
 
-          @Override
-          public void flush() {
-            mLogViewModel.clear(LogViewModel.IDE);
-          }
+    private Project mProject;
+    private CompilerServiceConnection mServiceConnection;
+    private IndexServiceConnection mIndexServiceConnection;
 
-          @Override
-          public void close() throws SecurityException {
-            mLogViewModel.clear(LogViewModel.IDE);
-          }
-        };
-    IdeLog.getLogger().addHandler(mHandler);
+    private final CompileCallback mCompileCallback = this::compile;
+    private final IndexCallback mIndexCallback = this::openProject;
 
-    ViewCompat.setOnApplyWindowInsetsListener(
-        mRoot,
-        (v, insets) -> {
-          ViewGroup viewGroup = (ViewGroup) mRoot;
-          for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            View child = viewGroup.getChildAt(i);
-            ViewCompat.dispatchApplyWindowInsets(child, insets);
-          }
-          return ViewCompat.onApplyWindowInsets(v, insets);
-        });
-  }
+    public MainFragment() {}
 
-  private void showNavPanel() {
-    if (mNavPanel.getVisibility() == View.VISIBLE) return;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setEnterTransition(new MaterialSharedAxis(MaterialSharedAxis.X, true));
+        setExitTransition(new MaterialSharedAxis(MaterialSharedAxis.X, false));
 
-    mNavPanel.setVisibility(View.VISIBLE);
-    if (mNavOverlay != null) {
-      mNavOverlay.setVisibility(View.VISIBLE);
-      mNavOverlay.setAlpha(0f);
-      mNavOverlay.animate().alpha(1f).setDuration(300).start();
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
+
+        String projectPath = requireArguments().getString("project_path");
+        String rootName = requireArguments().getString("root_name");
+
+        sharedPreferences
+                .edit()
+                .putString(SharedPreferenceKeys.SAVED_PROJECT_ROOT_NAME, rootName)
+                .apply();
+        sharedPreferences
+                .edit()
+                .putString(SharedPreferenceKeys.SAVED_PROJECT_PATH, projectPath)
+                .apply();
+
+        mProject = new Project(new File(projectPath), rootName);
+        mProjectManager = ProjectManager.getInstance();
+        mProjectManager.addOnProjectOpenListener(this);
+        mLogViewModel = new ViewModelProvider(requireActivity()).get(LogViewModel.class);
+        mMainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        mFileViewModel = new ViewModelProvider(requireActivity()).get(FileViewModel.class);
+        mIndexServiceConnection = new IndexServiceConnection(mMainViewModel, mLogViewModel);
+        mServiceConnection = new CompilerServiceConnection(mMainViewModel, mLogViewModel);
     }
 
-    TranslateAnimation animate = new TranslateAnimation(0, 0, mNavPanel.getHeight() > 0 ? mNavPanel.getHeight() : 1000, 0);
-    animate.setDuration(300);
-    animate.setFillAfter(true);
-    mNavPanel.startAnimation(animate);
-  }
+    @Override
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mRoot = inflater.inflate(R.layout.main_fragment, container, false);
 
-  private void hideNavPanel() {
-    if (mNavPanel.getVisibility() != View.VISIBLE) return;
+        mProgressBar = mRoot.findViewById(R.id.progressbar);
+        mProgressBar.setIndeterminate(true);
+        mProgressBar.setVisibility(View.GONE);
 
-    if (mNavOverlay != null) {
-      mNavOverlay.animate().alpha(0f).setDuration(300).withEndAction(() -> mNavOverlay.setVisibility(View.GONE)).start();
+        mToolbar = mRoot.findViewById(R.id.toolbar);
+        contentView = mRoot.findViewById(R.id.root);
+        mToolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
+        UiUtilsKt.addSystemWindowInsetToPadding(mToolbar, false, true, false, false);
+
+        getChildFragmentManager()
+                .setFragmentResultListener(
+                        REFRESH_TOOLBAR_KEY, getViewLifecycleOwner(), (key, __) -> refreshToolbar());
+
+        refreshToolbar();
+
+        if (savedInstanceState != null) {
+            restoreViewState(savedInstanceState);
+        }
+        return mRoot;
     }
 
-    TranslateAnimation animate = new TranslateAnimation(0, 0, 0, mNavPanel.getHeight());
-    animate.setDuration(300);
-    animate.setFillAfter(true);
-    animate.setAnimationListener(new Animation.AnimationListener() {
-      @Override
-      public void onAnimationStart(Animation animation) {}
+    @SuppressLint("RtlHardcoded")
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-      @Override
-      public void onAnimationEnd(Animation animation) {
-        mNavPanel.setVisibility(View.GONE);
-      }
+        mNavPanel = view.findViewById(R.id.nav_root);
+        mNavOverlay = view.findViewById(R.id.nav_overlay);
 
-      @Override
-      public void onAnimationRepeat(Animation animation) {}
-    });
-    mNavPanel.startAnimation(animate);
-  }
+        if (mNavPanel != null) {
+            mToolbar.setNavigationOnClickListener(
+                    v -> {
+                        boolean isOpen = Boolean.TRUE.equals(mMainViewModel.getDrawerState().getValue());
+                        mMainViewModel.setDrawerState(!isOpen);
+                    });
 
-  public void showExitDialog() {
-    if (!CompletionEngine.isIndexing()) {
-      new MaterialAlertDialogBuilder(requireContext())
-          .setTitle(R.string.title_confirm_project_close)
-          .setMessage(R.string.msg_confirm_project_close)
-          .setNegativeButton(android.R.string.no, null)
-          .setPositiveButton(
-              android.R.string.yes,
-              (d, w) -> {
-                saveAll();
-                closeProject();
-              })
-          .show();
-    }
-  }
+            if (mNavOverlay != null) {
+                mNavOverlay.setOnClickListener(v -> mMainViewModel.setDrawerState(false));
+            }
+        } else {
+            mToolbar.setNavigationIcon(null);
+        }
 
-  private void closeProject() {
-    ProjectManager manager = ProjectManager.getInstance();
-    Project project = manager.getCurrentProject();
-    if (project != null) {
-      for (Module module : project.getModules()) {
-        module.getFileManager().shutdown();
-      }
-    }
-    project.setIndexing(false);
-    CompletionEngine.setIndexing(false);
-    manager.removeOnProjectOpenListener(this);
-    startActivity(MainActivity.class, new Bundle());
-  }
+        File root;
+        if (mProject != null) {
+            root = mProject.getRootFile();
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                root = requireActivity().getExternalFilesDir(null);
+            } else {
+                root = Environment.getExternalStorageDirectory();
+            }
+        }
+        mFileViewModel.refreshNode(root);
 
-  public void startActivity(final Class clazz, final Bundle b) {
-    Intent i = new Intent(getActivity(), clazz);
-    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-    if (b != null) {
-      i.putExtra("recreate", b);
-    }
-    getActivity().finishAffinity();
-    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    startActivity(i);
-    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-  }
+        if (!mProject.equals(mProjectManager.getCurrentProject())) {
+            mRoot.postDelayed(() -> openProject(mProject), 200);
+        }
 
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
+        if (!mProject.equals(mProjectManager.getCurrentProject())) {
+            mMainViewModel.setFiles(new ArrayList<>());
+            mLogViewModel.clear(LogViewModel.BUILD_LOG);
+        }
+        mMainViewModel
+                .isIndexing()
+                .observe(
+                        getViewLifecycleOwner(),
+                        indexing -> {
+                            mProgressBar.setVisibility(indexing ? View.VISIBLE : View.GONE);
+                            CompletionEngine.setIndexing(indexing);
+                            refreshToolbar();
+                        });
 
-    ProjectManager manager = ProjectManager.getInstance();
-    Project project = manager.getCurrentProject();
-    if (project != null) {
-      for (Module module : project.getModules()) {
-        module.getFileManager().shutdown();
-      }
-    }
-    manager.removeOnProjectOpenListener(this);
+        mMainViewModel
+                .getDrawerState()
+                .observe(
+                        getViewLifecycleOwner(),
+                        isOpen -> {
+                            if (mNavPanel != null) {
+                                if (isOpen) {
+                                    showNavPanel();
+                                } else {
+                                    hideNavPanel();
+                                }
+                            }
+                        });
 
-    if (mLogReceiver != null) {
-      requireActivity().unregisterReceiver(mLogReceiver);
-    }
-  }
-
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-
-    if (mHandler != null) {
-      IdeLog.getLogger().removeHandler(mHandler);
-    }
-  }
-
-  @Override
-  public void onPause() {
-    super.onPause();
-
-    saveAll();
-    mServiceConnection.setShouldShowNotification(true);
-  }
-
-  @Override
-  public void onResume() {
-    super.onResume();
-
-    refreshToolbar();
-  }
-
-  @Override
-  public void onSaveInstanceState(@NonNull Bundle outState) {
-    saveAll();
-    if (mNavPanel != null) {
-      outState.putBoolean(
-          "start_drawer_state", mNavPanel.getVisibility() == View.VISIBLE);
-    }
-    super.onSaveInstanceState(outState);
-  }
-
-  private void restoreViewState(@NonNull Bundle state) {
-    boolean b = state.getBoolean("start_drawer_state", false);
-    mMainViewModel.setDrawerState(b);
-  }
-
-  public void openFile(FileEditor file) {
-    mMainViewModel.openFile(file);
-  }
-
-  public void openProject(@NonNull Project project) {
-    if (CompletionEngine.isIndexing()) {
-      return;
-    }
-    if (getContext() == null) {
-      return;
-    }
-    mLogViewModel.clear(LogViewModel.BUILD_LOG);
-
-    if (project.equals(ProjectManager.getInstance().getCurrentProject())) {
-      saveAll(false);
-      project.getSettings().refresh();
-    }
-
-    IndexServiceConnection.restoreFileEditors(project, mMainViewModel);
-
-    mProject = project;
-    mIndexServiceConnection.setProject(project);
-
-    mMainViewModel.setToolbarTitle(project.getRootFile().getName());
-    mMainViewModel.setIndexing(true);
-    CompletionEngine.setIndexing(true);
-
-    RefreshRootEvent event = new RefreshRootEvent(project.getRootFile());
-    ApplicationLoader.getInstance().getEventManager().dispatchEvent(event);
-
-    Intent intent = new Intent(requireContext(), IndexService.class);
-    requireActivity().startService(intent);
-    requireActivity().bindService(intent, mIndexServiceConnection, Context.BIND_IMPORTANT);
-  }
-
-  private void saveAll() {
-    saveAll(true);
-  }
-
-  private void saveAll(boolean async) {
-    if (mProject == null) {
-      return;
-    }
-
-    if (CompletionEngine.isIndexing()) {
-      return;
-    }
-
-    Collection<Module> modules = mProject.getModules();
-    modules.forEach(it -> it.getFileManager().saveContents());
-
-    getChildFragmentManager().setFragmentResult(EditorContainerFragment.SAVE_ALL_KEY, Bundle.EMPTY);
-
-    ProjectSettings settings = mProject.getSettings();
-    if (settings == null) {
-      return;
-    }
-
-    List<FileEditor> items = mMainViewModel.getFiles().getValue();
-    if (items != null) {
-      String itemString =
-          new Gson()
-              .toJson(items.stream().map(FileEditorSavedState::new).collect(Collectors.toList()));
-      SharedPreferences.Editor editor =
-          settings.edit().putString(ProjectSettings.SAVED_EDITOR_FILES, itemString);
-      if (async) {
-        editor.apply();
-      } else {
-        editor.commit();
-      }
-    }
-  }
-
-  private void compile(BuildType type) {
-    if (mServiceConnection.isCompiling() || CompletionEngine.isIndexing()) {
-      return;
-    }
-
-    saveAll();
-    mServiceConnection.setBuildType(type);
-
-    mMainViewModel.setCurrentState(getString(R.string.compilation_state_compiling));
-    mMainViewModel.setIndexing(true);
-    mLogViewModel.clear(LogViewModel.BUILD_LOG);
-
-    requireActivity().startService(new Intent(requireContext(), CompilerService.class));
-    requireActivity()
-        .bindService(
-            new Intent(requireContext(), CompilerService.class),
-            mServiceConnection,
-            Context.BIND_IMPORTANT);
-  }
-
-  @Override
-  public void onProjectOpen(Project project) {
-    Module module = project.getMainModule();
-    if (module instanceof AndroidModule) {
-      mLogReceiver =
-          new BroadcastReceiver() {
+        mHandler = new Handler() {
             @Override
-            public void onReceive(Context context, Intent intent) {
-              String type = intent.getExtras().getString("type", "DEBUG");
-              String message = intent.getExtras().getString("message", "No message provided");
-              DiagnosticWrapper wrapped = ILogger.wrap(message);
-
-              switch (type) {
-                case "DEBUG":
-                case "INFO":
-                  wrapped.setKind(Diagnostic.Kind.NOTE);
-                  mLogViewModel.d(LogViewModel.APP_LOG, wrapped);
-                  break;
-                case "ERROR":
-                  wrapped.setKind(Diagnostic.Kind.ERROR);
-                  mLogViewModel.e(LogViewModel.APP_LOG, wrapped);
-                  break;
-                case "WARNING":
-                  wrapped.setKind(Diagnostic.Kind.WARNING);
-                  mLogViewModel.w(LogViewModel.APP_LOG, wrapped);
-                  break;
-              }
+            public void publish(LogRecord record) {
+                Level level = record.getLevel();
+                if (Level.WARNING.equals(level)) {
+                    mLogViewModel.w(LogViewModel.IDE, record.getMessage());
+                } else if (Level.SEVERE.equals(level)) {
+                    mLogViewModel.e(LogViewModel.IDE, record.getMessage());
+                } else {
+                    mLogViewModel.d(LogViewModel.IDE, record.getMessage());
+                }
             }
-          };
-      String packageName = ((AndroidModule) module).getNameSpace();
-      if (packageName != null) {
-        IntentFilter filter = new IntentFilter(packageName + ".LOG");
+
+            @Override
+            public void flush() {
+                mLogViewModel.clear(LogViewModel.IDE);
+            }
+
+            @Override
+            public void close() throws SecurityException {
+                mLogViewModel.clear(LogViewModel.IDE);
+            }
+        };
+        IdeLog.getLogger().addHandler(mHandler);
+
+        ViewCompat.setOnApplyWindowInsetsListener(
+                mRoot,
+                (v, insets) -> {
+                    ViewGroup viewGroup = (ViewGroup) mRoot;
+                    for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                        View child = viewGroup.getChildAt(i);
+                        ViewCompat.dispatchApplyWindowInsets(child, insets);
+                    }
+                    return ViewCompat.onApplyWindowInsets(v, insets);
+                });
+    }
+
+    private void showNavPanel() {
+        if (mNavPanel.getVisibility() == View.VISIBLE) return;
+
+        // Garante que o painel seja clicável e visível
+        mNavPanel.setVisibility(View.VISIBLE);
+        mNavPanel.setClickable(true);
+        mNavPanel.setFocusable(true);
+        
+        // Define a posição inicial para a animação (vindo de baixo)
+        float startY = mNavPanel.getHeight() > 0 ? mNavPanel.getHeight() : 1000;
+        mNavPanel.setTranslationY(startY);
+
+        if (mNavOverlay != null) {
+            mNavOverlay.setVisibility(View.VISIBLE);
+            mNavOverlay.setAlpha(0f);
+            mNavOverlay.animate()
+                    .alpha(1f)
+                    .setDuration(300)
+                    .start();
+        }
+
+        mNavPanel.animate()
+                .translationY(0)
+                .setDuration(300)
+                .start();
+    }
+
+    private void hideNavPanel() {
+        if (mNavPanel.getVisibility() != View.VISIBLE) return;
+
+        // Desativa cliques imediatamente para evitar interações durante a animação de saída
+        mNavPanel.setClickable(false);
+        mNavPanel.setFocusable(false);
+
+        if (mNavOverlay != null) {
+            mNavOverlay.animate()
+                    .alpha(0f)
+                    .setDuration(300)
+                    .withEndAction(() -> {
+                        mNavOverlay.setVisibility(View.GONE);
+                    })
+                    .start();
+        }
+
+        float targetY = mNavPanel.getHeight() > 0 ? mNavPanel.getHeight() : 1000;
+
+        mNavPanel.animate()
+                .translationY(targetY)
+                .setDuration(300)
+                .withEndAction(() -> {
+                    // Define como GONE para remover completamente do layout e parar de interceptar toques
+                    mNavPanel.setVisibility(View.GONE);
+                    // Reseta a translação para que o layout volte ao normal internamente
+                    mNavPanel.setTranslationY(0);
+                })
+                .start();
+    }
+
+    private void closeProject() {
+        ProjectManager manager = ProjectManager.getInstance();
+        Project project = manager.getCurrentProject();
+        if (project != null) {
+            for (Module module : project.getModules()) {
+                module.getFileManager().shutdown();
+            }
+        }
+        project.setIndexing(false);
+        CompletionEngine.setIndexing(false);
+        manager.removeOnProjectOpenListener(this);
+        startActivity(MainActivity.class, new Bundle());
+    }
+
+    public void startActivity(final Class clazz, final Bundle b) {
+        Intent i = new Intent(getActivity(), clazz);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        if (b != null) {
+            i.putExtra("recreate", b);
+        }
+        getActivity().finishAffinity();
+        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        startActivity(i);
+        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        ProjectManager manager = ProjectManager.getInstance();
+        Project project = manager.getCurrentProject();
+        if (project != null) {
+            for (Module module : project.getModules()) {
+                module.getFileManager().shutdown();
+            }
+        }
+        manager.removeOnProjectOpenListener(this);
+
+        if (mLogReceiver != null) {
+            requireActivity().unregisterReceiver(mLogReceiver);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (mHandler != null) {
+            IdeLog.getLogger().removeHandler(mHandler);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        saveAll();
+        mServiceConnection.setShouldShowNotification(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        refreshToolbar();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        saveAll();
+        if (mNavPanel != null) {
+            outState.putBoolean(
+                    "start_drawer_state", mNavPanel.getVisibility() == View.VISIBLE);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    private void restoreViewState(@NonNull Bundle state) {
+        boolean b = state.getBoolean("start_drawer_state", false);
+        mMainViewModel.setDrawerState(b);
+    }
+
+    public void openFile(FileEditor file) {
+        mMainViewModel.openFile(file);
+    }
+
+    public void openProject(@NonNull Project project) {
+        if (CompletionEngine.isIndexing()) {
+            return;
+        }
+        if (getContext() == null) {
+            return;
+        }
+        mLogViewModel.clear(LogViewModel.BUILD_LOG);
+
+        if (project.equals(ProjectManager.getInstance().getCurrentProject())) {
+            saveAll(false);
+            project.getSettings().refresh();
+        }
+
+        IndexServiceConnection.restoreFileEditors(project, mMainViewModel);
+
+        mProject = project;
+        mIndexServiceConnection.setProject(project);
+
+        mMainViewModel.setToolbarTitle(project.getRootFile().getName());
+        mMainViewModel.setIndexing(true);
+        CompletionEngine.setIndexing(true);
+
+        RefreshRootEvent event = new RefreshRootEvent(project.getRootFile());
+        ApplicationLoader.getInstance().getEventManager().dispatchEvent(event);
+
+        Intent intent = new Intent(requireContext(), IndexService.class);
+        requireActivity().startService(intent);
+        requireActivity().bindService(intent, mIndexServiceConnection, Context.BIND_IMPORTANT);
+    }
+
+    private void saveAll() {
+        saveAll(true);
+    }
+
+    private void saveAll(boolean async) {
+        if (mProject == null) {
+            return;
+        }
+
+        if (CompletionEngine.isIndexing()) {
+            return;
+        }
+
+        Collection<Module> modules = mProject.getModules();
+        modules.forEach(it -> it.getFileManager().saveContents());
+
+        getChildFragmentManager().setFragmentResult(EditorContainerFragment.SAVE_ALL_KEY, Bundle.EMPTY);
+
+        ProjectSettings settings = mProject.getSettings();
+        if (settings == null) {
+            return;
+        }
+
+        List<FileEditor> items = mMainViewModel.getFiles().getValue();
+        if (items != null) {
+            String itemString = new Gson()
+                    .toJson(items.stream().map(FileEditorSavedState
+                            ::new).collect(Collectors.toList()));
+            SharedPreferences.Editor editor = settings.edit().putString(ProjectSettings.SAVED_EDITOR_FILES, itemString);
+            if (async) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    private void compile(BuildType type) {
+        if (mServiceConnection.isCompiling() || CompletionEngine.isIndexing()) {
+            return;
+        }
+
+        saveAll();
+        mServiceConnection.setBuildType(type);
+
+        mMainViewModel.setCurrentState(getString(R.string.compilation_state_compiling));
+        mMainViewModel.setIndexing(true);
+        mLogViewModel.clear(LogViewModel.BUILD_LOG);
+
+        requireActivity().startService(new Intent(requireContext(), CompilerService.class));
         requireActivity()
-            .registerReceiver(
-                mLogReceiver, filter, Context.RECEIVER_NOT_EXPORTED
-                );
-      } else {
-        mLogReceiver = null;
-      }
+                .bindService(
+                        new Intent(requireContext(), CompilerService.class),
+                        mServiceConnection,
+                        Context.BIND_IMPORTANT);
     }
 
-    ProgressManager.getInstance()
-        .runLater(
-            () -> {
-              if (getContext() == null) {
-                return;
-              }
-              refreshToolbar();
-            });
-  }
+    @Override
+    public void onProjectOpen(Project project) {
+        Module module = project.getMainModule();
+        if (module instanceof AndroidModule) {
+            mLogReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String type = intent.getExtras().getString("type", "DEBUG");
+                    String message = intent.getExtras().getString("message", "No message provided");
+                    DiagnosticWrapper wrapped = ILogger.wrap(message);
 
-  private void injectData(DataContext context) {
-    Boolean indexing = mMainViewModel.isIndexing().getValue();
-    if (indexing == null) {
-      indexing = true;
+                    switch (type) {
+                        case "DEBUG":
+                        case "INFO":
+                            wrapped.setKind(Diagnostic.Kind.NOTE);
+                            mLogViewModel.d(LogViewModel.APP_LOG, wrapped);
+                            break;
+                        case "ERROR":
+                            wrapped.setKind(Diagnostic.Kind.ERROR);
+                            mLogViewModel.e(LogViewModel.APP_LOG, wrapped);
+                            break;
+                        case "WARNING":
+                            wrapped.setKind(Diagnostic.Kind.WARNING);
+                            mLogViewModel.w(LogViewModel.APP_LOG, wrapped);
+                            break;
+                    }
+                }
+            };
+            String packageName = ((AndroidModule) module).getNameSpace();
+            if (packageName != null) {
+                IntentFilter filter = new IntentFilter(packageName + ".LOG");
+                requireActivity()
+                        .registerReceiver(
+                                mLogReceiver, filter, Context.RECEIVER_NOT_EXPORTED
+                        );
+            } else {
+                mLogReceiver = null;
+            }
+        }
+
+        ProgressManager.getInstance()
+                .runLater(
+                        () -> {
+                            if (getContext() == null) {
+                                return;
+                            }
+                            refreshToolbar();
+                        });
     }
-    if (!indexing) {
-      context.putData(CommonDataKeys.PROJECT, ProjectManager.getInstance().getCurrentProject());
+
+    private void injectData(DataContext context) {
+        Boolean indexing = mMainViewModel.isIndexing().getValue();
+        if (indexing == null) {
+            indexing = true;
+        }
+        if (!indexing) {
+            context.putData(CommonDataKeys.PROJECT, ProjectManager.getInstance().getCurrentProject());
+        }
+        context.putData(CommonDataKeys.ACTIVITY, getActivity());
+        context.putData(MAIN_VIEW_MODEL_KEY, mMainViewModel);
+        context.putData(COMPILE_CALLBACK_KEY, mCompileCallback);
+        context.putData(INDEX_CALLBACK_KEY, mIndexCallback);
+        context.putData(CommonDataKeys.FILE_EDITOR_KEY, mMainViewModel.getCurrentFileEditor());
     }
-    context.putData(CommonDataKeys.ACTIVITY, getActivity());
-    context.putData(MAIN_VIEW_MODEL_KEY, mMainViewModel);
-    context.putData(COMPILE_CALLBACK_KEY, mCompileCallback);
-    context.putData(INDEX_CALLBACK_KEY, mIndexCallback);
-    context.putData(CommonDataKeys.FILE_EDITOR_KEY, mMainViewModel.getCurrentFileEditor());
-  }
 
-  public void refreshToolbar() {
-    mToolbar.getMenu().clear();
+    public void refreshToolbar() {
+        mToolbar.getMenu().clear();
 
-    DataContext context = DataContextUtils.getDataContext(mToolbar);
-    injectData(context);
+        DataContext context = DataContextUtils.getDataContext(mToolbar);
+        injectData(context);
 
-    Instant now = Instant.now();
-    ActionManager.getInstance()
-        .fillMenu(context, mToolbar.getMenu(), ActionPlaces.MAIN_TOOLBAR, false, true);
-    Log.d("ActionManager", "fillMenu() took " + Duration.between(now, Instant.now()).toMillis());
-  }
+        Instant now = Instant.now();
+        ActionManager.getInstance()
+                .fillMenu(context, mToolbar.getMenu(), ActionPlaces.MAIN_TOOLBAR, false, true);
+        Log.d("ActionManager", "fillMenu() took " + Duration.between(now, Instant.now()).toMillis());
+    }
 }
