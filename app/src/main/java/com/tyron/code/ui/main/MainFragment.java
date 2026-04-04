@@ -294,7 +294,7 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
         mNavPanel.setVisibility(View.VISIBLE);
         mNavPanel.setClickable(true);
         mNavPanel.setFocusable(true);
-        
+
         // Define a posição inicial para a animação (vindo de baixo)
         float startY = mNavPanel.getHeight() > 0 ? mNavPanel.getHeight() : 1000;
         mNavPanel.setTranslationY(startY);
@@ -337,12 +337,24 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
                 .translationY(targetY)
                 .setDuration(300)
                 .withEndAction(() -> {
-                    // Define como GONE para remover completamente do layout e parar de interceptar toques
+                    // Define como GONE para remover completamente do layout e parar de interceptar
+                    // toques
                     mNavPanel.setVisibility(View.GONE);
                     // Reseta a translação para que o layout volte ao normal internamente
                     mNavPanel.setTranslationY(0);
                 })
                 .start();
+    }
+
+    private void showExitDialog() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.exit_dialog_title)
+                .setMessage(R.string.exit_dialog_message)
+                .setPositiveButton(R.string.exit_dialog_positive, (dialog, which) -> {
+                    requireActivity().finish();
+                })
+                .setNegativeButton(R.string.exit_dialog_negative, null)
+                .show();
     }
 
     private void closeProject() {
@@ -597,14 +609,3 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
         Log.d("ActionManager", "fillMenu() took " + Duration.between(now, Instant.now()).toMillis());
     }
 }
-
-    private void showExitDialog() {
-        new MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.exit_dialog_title)
-                .setMessage(R.string.exit_dialog_message)
-                .setPositiveButton(R.string.exit_dialog_positive, (dialog, which) -> {
-                    requireActivity().finish();
-                })
-                .setNegativeButton(R.string.exit_dialog_negative, null)
-                .show();
-    }
