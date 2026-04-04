@@ -176,9 +176,11 @@ public class TreeFileManagerFragment extends Fragment {
 
         TextView projectNameText = view.findViewById(R.id.project_name_text);
 
-        Uri uri = Uri.fromFile(rootDir);
-        String folderProjectName = new File(uri.getPath()).getName();
-        projectNameText.setText(folderProjectName);
+        if (currentDir != null) {
+            projectNameText.setText(currentDir.getName());
+        } else {
+            projectNameText.setText("");
+        }
 
         addLibrary.setOnClickListener(
                 v -> {
