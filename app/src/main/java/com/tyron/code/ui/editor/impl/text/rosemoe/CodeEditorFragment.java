@@ -291,9 +291,9 @@ public class CodeEditorFragment extends Fragment
         configureEditor(mEditor);
 
         if (mEditor.getText().toString().equals("")) {
-            emptyText.setVisibility(View.VISIBLE);
-        } else {
             emptyText.setVisibility(View.GONE);
+        } else {            
+            emptyText.setVisibility(View.VISIBLE);
         }
 
         View topView = view.findViewById(R.id.top_view);

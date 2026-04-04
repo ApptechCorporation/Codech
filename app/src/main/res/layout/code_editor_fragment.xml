@@ -8,6 +8,7 @@
         android:id="@+id/code_editor"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+        
     <TextView
         android:id="@+id/empty_text"
         android:layout_width="match_parent"
