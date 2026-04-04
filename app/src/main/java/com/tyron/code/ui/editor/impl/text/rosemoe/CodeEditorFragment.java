@@ -181,8 +181,6 @@ public class CodeEditorFragment extends Fragment
 
     private CodeEditorView mEditor;
 
-    private TextView emptyText;
-
     private Language mLanguage;
     private File mCurrentFile = new File("");
     private MainViewModel mMainViewModel;
@@ -284,17 +282,9 @@ public class CodeEditorFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
         mCanSave = false;
 
-        emptyText = view.findViewById(R.id.empty_text);
-
         mEditor = view.findViewById(R.id.code_editor);
         mEditor.setEditable(false);
         configureEditor(mEditor);
-
-        if (mEditor.getText().toString().equals("")) {
-            emptyText.setVisibility(View.GONE);
-        } else {            
-            emptyText.setVisibility(View.VISIBLE);
-        }
 
         View topView = view.findViewById(R.id.top_view);
         EditorViewModel viewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(EditorViewModel.class);

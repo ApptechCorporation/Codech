@@ -348,12 +348,12 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
 
     private void showExitDialog() {
         new MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.exit_dialog_title)
-                .setMessage(R.string.exit_dialog_message)
-                .setPositiveButton(R.string.exit_dialog_positive, (dialog, which) -> {
+                .setTitle("Close project")
+                .setMessage("Are you sure you want to close this project?")
+                .setPositiveButton("Sim", (dialog, which) -> {
                     requireActivity().finish();
                 })
-                .setNegativeButton(R.string.exit_dialog_negative, null)
+                .setNegativeButton("Cancelar", null)
                 .show();
     }
 
