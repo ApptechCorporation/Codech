@@ -64,8 +64,10 @@
                     android:text="@string/create_new_project"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
-                    app:iconSize="32dp"
+                    app:iconSize="25dp"
+                    app:cornerRadius="10dp"
                     app:iconGravity="start"
+                    app:iconTint="?attr/colorPrimary"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_baseline_add_24"
                     style="?attr/materialIconButtonFilledTonalStyle" />
@@ -78,20 +80,24 @@
                     android:textSize="14sp"
                     app:iconPadding="16dp"
                     app:iconGravity="start"
-                    app:iconSize="32dp"
+                    app:iconTint="?attr/colorPrimary"
+                    app:cornerRadius="10dp"
+                    app:iconSize="25dp"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_folder_zip"
                     style="?attr/materialIconButtonFilledTonalStyle" />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/gitCloneRepo"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="70dp"
+                    app:cornerRadius="10dp"
                     android:layout_marginBottom="5dp"
                     android:text="@string/git_clone_repo"
                     android:textSize="14sp"
                     app:iconPadding="16dp"
                     app:iconGravity="start"
-                    app:iconSize="32dp"
+                    app:iconSize="25dp"
+                    app:iconTint="?attr/colorPrimary"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_git"
                     style="?attr/materialIconButtonFilledTonalStyle" />
@@ -109,7 +115,7 @@
                     android:background="?attr/colorOutline"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/open_project_list"
                     android:layout_width="match_parent"

@@ -11,6 +11,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:cardBackgroundColor="?attr/colorSecondaryContainer"
         app:cardCornerRadius="16dp"
 		app:cardUseCompatPadding="true"
 		android:descendantFocusability="blocksDescendants"	

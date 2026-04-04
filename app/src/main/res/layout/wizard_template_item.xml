@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:paddingTop="8dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="12dp"
     app:cardCornerRadius="10dp">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/template_icon"
-        android:layout_width="16dp"
-        android:layout_height="160dp"
+        android:layout_width="120dp"
+        android:layout_height="165dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:elevation="4dp"
+        app:shapeAppearance="@style/RoundedTemplates"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
