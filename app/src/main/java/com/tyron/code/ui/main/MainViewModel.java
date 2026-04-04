@@ -42,8 +42,11 @@ public class MainViewModel extends ViewModel {
   }
 
   public void setCurrentState(@Nullable String message) {
+    if (mCurrentState == null) {
+        mCurrentState = new MutableLiveData<>(null);
+    }
     mCurrentState.setValue(message);
-  }
+}
 
   public LiveData<Boolean> getDrawerState() {
     return mDrawerState;
@@ -205,7 +208,10 @@ public class MainViewModel extends ViewModel {
     }
   }
 
-  public void initializeProject(Module module) {
-    setIndexing(true);
-  }
+  public void setIndexing(boolean indexing) {
+    if (mIndexing == null) {
+        mIndexing = new MutableLiveData<>(false);
+    }
+    mIndexing.setValue(indexing);
+}
 }
