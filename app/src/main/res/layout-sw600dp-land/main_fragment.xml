@@ -1,36 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    android:fitsSystemWindows="true"
-    android:orientation="horizontal">
-
-    <!-- Painel lateral de arquivos (fixo ao lado do editor) -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_root"
-        android:name="com.tyron.code.ui.file.tree.TreeFileManagerFragment"
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/nav_background"
-        android:visibility="gone" />
-
-    <!-- Divisor vertical entre o painel e o editor -->
-    <View
-        android:id="@+id/nav_divider"
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:background="?attr/colorOutline"
-        android:visibility="gone" />
+    android:fitsSystemWindows="true">
 
     <!-- Area principal: toolbar + editor -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -51,8 +32,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Este wrapper extra e necessario para que os insets de janela
-             continuem sendo despachados para outras views -->
         <com.tyron.code.util.NoInsetFrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -69,4 +48,22 @@
         </com.tyron.code.util.NoInsetFrameLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <!-- Overlay escuro quando o painel estiver aberto -->
+    <View
+        android:id="@+id/nav_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone" />
+
+    <!-- Painel de arquivos que vem de baixo para cima -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_root"
+        android:name="com.tyron.code.ui.file.tree.TreeFileManagerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/nav_background_rounded"
+        android:visibility="gone" />
+
+</FrameLayout>

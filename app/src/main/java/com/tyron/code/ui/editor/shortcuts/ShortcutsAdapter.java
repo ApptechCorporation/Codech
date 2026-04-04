@@ -65,7 +65,18 @@ public class ShortcutsAdapter extends RecyclerView.Adapter<ShortcutsAdapter.View
     }
 
     public void bind(ShortcutItem item) {
-      textView.setText(item.label);
+      if (item.iconRes != 0) {
+        // Se houver um ícone definido, remove o texto e define a imagem de fundo/ícone composto
+        textView.setText("");
+        // Usamos setCompoundDrawablesWithIntrinsicBounds para colocar a imagem centralizada no TextView
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, item.iconRes);
+        // Ajustamos o padding para centralizar se necessário
+        textView.setPadding(0, 0, 0, 0);
+      } else {
+        // Caso contrário, exibe o texto normalmente e limpa qualquer imagem
+        textView.setText(item.label);
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+      }
     }
   }
 }

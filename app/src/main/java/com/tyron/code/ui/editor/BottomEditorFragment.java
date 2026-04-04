@@ -147,13 +147,15 @@ public class BottomEditorFragment extends Fragment {
   }
 
   private List<ShortcutItem> getShortcuts() {
-    List<String> strings = Arrays.asList("<", ">", ";", "{", "}", ":");
+    // Mantendo os caracteres especiais solicitados: <, >, /, (, ), ;, {, }, :
+    List<String> strings = Arrays.asList("<", ">", "/", "(", ")", ";", "{", "}", ":");
     List<ShortcutItem> items = new ArrayList<>();
+    
+    // Adicionando o TAB (->)
     items.add(
         new ShortcutItem(
             Collections.singletonList(
                 new ShortcutAction() {
-
                   @Override
                   public boolean isApplicable(String kind) {
                     return "tab".equals(kind);
@@ -174,6 +176,8 @@ public class BottomEditorFragment extends Fragment {
                 }),
             "->",
             "tab"));
+
+    // Adicionando os caracteres especiais (<, >, etc.)
     items.addAll(
         strings.stream()
             .map(
@@ -185,26 +189,13 @@ public class BottomEditorFragment extends Fragment {
                   return it;
                 })
             .collect(Collectors.toList()));
-    Collections.addAll(
-        items,
-        new ShortcutItem(Collections.singletonList(new UndoAction()), "⬿", UndoAction.KIND),
-        new ShortcutItem(Collections.singletonList(new RedoAction()), "⤳", RedoAction.KIND),
-        new ShortcutItem(
-            Collections.singletonList(new CursorMoveAction(CursorMoveAction.Direction.UP, 1)),
-            "↑",
-            CursorMoveAction.KIND),
-        new ShortcutItem(
-            Collections.singletonList(new CursorMoveAction(CursorMoveAction.Direction.DOWN, 1)),
-            "↓",
-            CursorMoveAction.KIND),
-        new ShortcutItem(
-            Collections.singletonList(new CursorMoveAction(CursorMoveAction.Direction.LEFT, 1)),
-            "←",
-            CursorMoveAction.KIND),
-        new ShortcutItem(
-            Collections.singletonList(new CursorMoveAction(CursorMoveAction.Direction.RIGHT, 1)),
-            "→",
-            CursorMoveAction.KIND));
+
+    // Adicionando Desfazer (Undo) e Refazer (Redo) com imagens (substituindo ⬿ e ⤳)
+    // Nota: Substitua R.drawable.ic_undo e R.drawable.ic_redo pelos nomes reais dos seus recursos de imagem
+    items.add(new ShortcutItem(Collections.singletonList(new UndoAction()), R.drawable.ic_undo, UndoAction.KIND));
+    items.add(new ShortcutItem(Collections.singletonList(new RedoAction()), R.drawable.ic_redo, RedoAction.KIND));
+
+    // Removidas as setas (↑, ↓, ←, →) conforme solicitado
 
     return items;
   }

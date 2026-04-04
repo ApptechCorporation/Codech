@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -102,28 +104,18 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
   private LinearProgressIndicator mProgressBar;
   private BroadcastReceiver mLogReceiver;
 
-  // Referências ao painel lateral e ao divisor (layout nao-drawer)
+  // Referências ao painel lateral e ao overlay
   private View mNavPanel;
-  private View mNavDivider;
+  private View mNavOverlay;
 
   private final OnBackPressedCallback onBackPressedCallback =
       new OnBackPressedCallback(true) {
         @Override
         public void handleOnBackPressed() {
-          if (mRoot instanceof DrawerLayout) {
-            //noinspection ConstantConditions
-            if (mMainViewModel.getDrawerState().getValue()) {
-              mMainViewModel.setDrawerState(false);
-            } else {
-              showExitDialog();
-            }
+          if (mNavPanel != null && mNavPanel.getVisibility() == View.VISIBLE) {
+            mMainViewModel.setDrawerState(false);
           } else {
-            // No layout com painel fixo, voltar fecha o painel se estiver aberto
-            if (mNavPanel != null && mNavPanel.getVisibility() == View.VISIBLE) {
-              mMainViewModel.setDrawerState(false);
-            } else {
-              showExitDialog();
-            }
+            showExitDialog();
           }
         }
       };
@@ -198,46 +190,22 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
   public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    if (mRoot instanceof DrawerLayout) {
-      // Comportamento legado de DrawerLayout (nao deve ocorrer com o novo layout)
-      DrawerLayout drawerLayout = (DrawerLayout) mRoot;
+    mNavPanel = view.findViewById(R.id.nav_root);
+    mNavOverlay = view.findViewById(R.id.nav_overlay);
+
+    if (mNavPanel != null) {
       mToolbar.setNavigationOnClickListener(
           v -> {
-            if (drawerLayout.isDrawerOpen(android.view.Gravity.LEFT)) {
-              mMainViewModel.setDrawerState(false);
-            } else {
-              mMainViewModel.setDrawerState(true);
-            }
+            boolean isOpen =
+                Boolean.TRUE.equals(mMainViewModel.getDrawerState().getValue());
+            mMainViewModel.setDrawerState(!isOpen);
           });
-      drawerLayout.addDrawerListener(
-          new DrawerLayout.SimpleDrawerListener() {
-            @Override
-            public void onDrawerOpened(@NonNull View p1) {
-              mMainViewModel.setDrawerState(true);
-            }
 
-            @Override
-            public void onDrawerClosed(@NonNull View p1) {
-              mMainViewModel.setDrawerState(false);
-            }
-          });
-    } else {
-      // Novo comportamento: painel lateral fixo ao lado do editor
-      mNavPanel = view.findViewById(R.id.nav_root);
-      mNavDivider = view.findViewById(R.id.nav_divider);
-
-      if (mNavPanel != null) {
-        // Botao de menu faz toggle do painel lateral
-        mToolbar.setNavigationOnClickListener(
-            v -> {
-              boolean isOpen =
-                  Boolean.TRUE.equals(mMainViewModel.getDrawerState().getValue());
-              mMainViewModel.setDrawerState(!isOpen);
-            });
-      } else {
-        // Layout tablet (fragment_first_pane fixo, sem botao de menu)
-        mToolbar.setNavigationIcon(null);
+      if (mNavOverlay != null) {
+        mNavOverlay.setOnClickListener(v -> mMainViewModel.setDrawerState(false));
       }
+    } else {
+      mToolbar.setNavigationIcon(null);
     }
 
     File root;
@@ -256,7 +224,6 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
       mRoot.postDelayed(() -> openProject(mProject), 200);
     }
 
-    // Se o usuario trocou de projeto, limpar os arquivos abertos
     if (!mProject.equals(mProjectManager.getCurrentProject())) {
       mMainViewModel.setFiles(new ArrayList<>());
       mLogViewModel.clear(LogViewModel.BUILD_LOG);
@@ -270,26 +237,17 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
               CompletionEngine.setIndexing(indexing);
               refreshToolbar();
             });
-    mMainViewModel.getCurrentState().observe(getViewLifecycleOwner(), mToolbar::setSubtitle);
-    mMainViewModel.getToolbarTitle().observe(getViewLifecycleOwner(), mToolbar::setTitle);
 
-    // Observar o estado do painel para abrir/fechar
     mMainViewModel
         .getDrawerState()
         .observe(
             getViewLifecycleOwner(),
             isOpen -> {
-              if (mRoot instanceof DrawerLayout) {
+              if (mNavPanel != null) {
                 if (isOpen) {
-                  ((DrawerLayout) mRoot).openDrawer(android.view.Gravity.LEFT);
+                  showNavPanel();
                 } else {
-                  ((DrawerLayout) mRoot).closeDrawer(android.view.Gravity.LEFT);
-                }
-              } else if (mNavPanel != null) {
-                // Painel lateral fixo: mostrar ou esconder
-                mNavPanel.setVisibility(isOpen ? View.VISIBLE : View.GONE);
-                if (mNavDivider != null) {
-                  mNavDivider.setVisibility(isOpen ? View.VISIBLE : View.GONE);
+                  hideNavPanel();
                 }
               }
             });
@@ -320,26 +278,57 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
         };
     IdeLog.getLogger().addHandler(mHandler);
 
-    // Pode ser null em tablets (onde o nav_root nao existe)
-    View navRoot = view.findViewById(R.id.nav_root);
-
     ViewCompat.setOnApplyWindowInsetsListener(
         mRoot,
         (v, insets) -> {
-          if (navRoot != null) {
-            ViewCompat.dispatchApplyWindowInsets(navRoot, insets);
-          }
           ViewGroup viewGroup = (ViewGroup) mRoot;
           for (int i = 0; i < viewGroup.getChildCount(); i++) {
             View child = viewGroup.getChildAt(i);
-            if (child == navRoot) {
-              continue;
-            }
-
             ViewCompat.dispatchApplyWindowInsets(child, insets);
           }
           return ViewCompat.onApplyWindowInsets(v, insets);
         });
+  }
+
+  private void showNavPanel() {
+    if (mNavPanel.getVisibility() == View.VISIBLE) return;
+
+    mNavPanel.setVisibility(View.VISIBLE);
+    if (mNavOverlay != null) {
+      mNavOverlay.setVisibility(View.VISIBLE);
+      mNavOverlay.setAlpha(0f);
+      mNavOverlay.animate().alpha(1f).setDuration(300).start();
+    }
+
+    TranslateAnimation animate = new TranslateAnimation(0, 0, mNavPanel.getHeight() > 0 ? mNavPanel.getHeight() : 1000, 0);
+    animate.setDuration(300);
+    animate.setFillAfter(true);
+    mNavPanel.startAnimation(animate);
+  }
+
+  private void hideNavPanel() {
+    if (mNavPanel.getVisibility() != View.VISIBLE) return;
+
+    if (mNavOverlay != null) {
+      mNavOverlay.animate().alpha(0f).setDuration(300).withEndAction(() -> mNavOverlay.setVisibility(View.GONE)).start();
+    }
+
+    TranslateAnimation animate = new TranslateAnimation(0, 0, 0, mNavPanel.getHeight());
+    animate.setDuration(300);
+    animate.setFillAfter(true);
+    animate.setAnimationListener(new Animation.AnimationListener() {
+      @Override
+      public void onAnimationStart(Animation animation) {}
+
+      @Override
+      public void onAnimationEnd(Animation animation) {
+        mNavPanel.setVisibility(View.GONE);
+      }
+
+      @Override
+      public void onAnimationRepeat(Animation animation) {}
+    });
+    mNavPanel.startAnimation(animate);
   }
 
   public void showExitDialog() {
@@ -429,11 +418,7 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
     saveAll();
-    if (mRoot instanceof DrawerLayout) {
-      outState.putBoolean(
-          "start_drawer_state",
-          ((DrawerLayout) mRoot).isDrawerOpen(android.view.Gravity.LEFT));
-    } else if (mNavPanel != null) {
+    if (mNavPanel != null) {
       outState.putBoolean(
           "start_drawer_state", mNavPanel.getVisibility() == View.VISIBLE);
     }
@@ -445,11 +430,6 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
     mMainViewModel.setDrawerState(b);
   }
 
-  /**
-   * Tries to open a file into the editor
-   *
-   * @param file file to open
-   */
   public void openFile(FileEditor file) {
     mMainViewModel.openFile(file);
   }
@@ -577,7 +557,7 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
         IntentFilter filter = new IntentFilter(packageName + ".LOG");
         requireActivity()
             .registerReceiver(
-                mLogReceiver, filter, Context.RECEIVER_NOT_EXPORTED // safer by default
+                mLogReceiver, filter, Context.RECEIVER_NOT_EXPORTED
                 );
       } else {
         mLogReceiver = null;
@@ -596,7 +576,6 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
 
   private void injectData(DataContext context) {
     Boolean indexing = mMainViewModel.isIndexing().getValue();
-    // to please lint
     if (indexing == null) {
       indexing = true;
     }
