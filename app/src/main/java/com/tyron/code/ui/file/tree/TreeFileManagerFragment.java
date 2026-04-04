@@ -176,7 +176,7 @@ public class TreeFileManagerFragment extends Fragment {
 
         TextView projectNameText = view.findViewById(R.id.project_name_text);
 
-        Uri uri = rootDir;
+        Uri uri = Uri.fromFile(rootDir);
         String folderProjectName = new File(uri.getPath()).getName();
         projectNameText.setText(folderProjectName);
 

@@ -597,3 +597,14 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
         Log.d("ActionManager", "fillMenu() took " + Duration.between(now, Instant.now()).toMillis());
     }
 }
+
+    private void showExitDialog() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.exit_dialog_title)
+                .setMessage(R.string.exit_dialog_message)
+                .setPositiveButton(R.string.exit_dialog_positive, (dialog, which) -> {
+                    requireActivity().finish();
+                })
+                .setNegativeButton(R.string.exit_dialog_negative, null)
+                .show();
+    }
