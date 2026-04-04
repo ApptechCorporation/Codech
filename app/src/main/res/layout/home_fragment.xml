@@ -34,6 +34,7 @@
                     android:id="@+id/app_icon"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
+                    app:shapeAppearance="@style/RoundedTemplates"
                     android:layout_marginTop="16dp"
                     android:src="@mipmap/ic_launcher" />
                 <TextView
@@ -105,10 +106,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:background="?attr/colorOutline"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/md_theme_dark_outline" />
+                    android:layout_marginBottom="10dp"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/open_project_list"
                     android:layout_width="match_parent"

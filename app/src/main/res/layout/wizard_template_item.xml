@@ -11,8 +11,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/template_icon"
-        android:layout_width="110dp"
-        android:layout_height="140dp"
+        android:layout_width="16dp"
+        android:layout_height="160dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:elevation="4dp"
