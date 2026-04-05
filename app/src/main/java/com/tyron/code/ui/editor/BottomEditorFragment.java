@@ -151,6 +151,9 @@ public class BottomEditorFragment extends Fragment {
     List<String> strings = Arrays.asList("<", ">", "/", "(", ")", ";", "{", "}", ":");
     List<ShortcutItem> items = new ArrayList<>();
     
+    items.add(new ShortcutItem(Collections.singletonList(new UndoAction()), R.drawable.ic_undo, UndoAction.KIND));
+    items.add(new ShortcutItem(Collections.singletonList(new RedoAction()), R.drawable.ic_redo, RedoAction.KIND));
+    
     // Adicionando o TAB (->)
     items.add(
         new ShortcutItem(
@@ -189,13 +192,6 @@ public class BottomEditorFragment extends Fragment {
                   return it;
                 })
             .collect(Collectors.toList()));
-
-    // Adicionando Desfazer (Undo) e Refazer (Redo) com imagens (substituindo ⬿ e ⤳)
-    // Nota: Substitua R.drawable.ic_undo e R.drawable.ic_redo pelos nomes reais dos seus recursos de imagem
-    items.add(new ShortcutItem(Collections.singletonList(new UndoAction()), R.drawable.ic_undo, UndoAction.KIND));
-    items.add(new ShortcutItem(Collections.singletonList(new RedoAction()), R.drawable.ic_redo, RedoAction.KIND));
-
-    // Removidas as setas (↑, ↓, ←, →) conforme solicitado
 
     return items;
   }
