@@ -579,7 +579,7 @@ public class CodeEditorFragment extends Fragment
     }
 
     @Override
-    public void onProjectOpened(@NonNull Project project) {
+    public void onProjectOpen(Project project) {
         ProgressManager.getInstance().runLater(() -> readFile(project, mSavedInstanceState));
         setupLanguageServer();
     }
@@ -758,10 +758,5 @@ public class CodeEditorFragment extends Fragment
         }
         dataContext.putData(CommonDataKeys.DIAGNOSTIC, diagnosticWrapper);
         return dataContext;
-    }
-
-    @Override
-    public void onProjectOpen(Project project) {
-        onProjectOpened(project);
     }
 }
