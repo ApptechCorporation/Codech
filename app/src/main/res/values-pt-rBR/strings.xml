@@ -22,7 +22,7 @@
 	<string name="git_clone_repo">Clonar repositório git</string>
 	<string name="open_existing_project">Abrir projeto existente</string>
 	<string name="project_manager">Project manager</string>
-	<string name="import_project">Import project</string>
+	<string name="import_project">Projeto de importação</string>
 	<string name="configure_settings">Configurações</string>
 	<string name="choose_project">Choose project</string>
 

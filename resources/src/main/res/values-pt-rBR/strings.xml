@@ -225,8 +225,8 @@
     <string name="editor_error_file">Ocorreu um erro ao ler o arquivo. As alterações não serão salvas.</string>
 
     <!-- Bottom Editor Fragment -->
-    <string name="tab_build_logs_title">Logs da compilação</string>
-    <string name="tab_app_logs_title">Logs do aplicativo</string>
+    <string name="tab_build_logs_title">Compilação</string>
+    <string name="tab_app_logs_title">Logs do app</string>
     <string name="tab_ide_logs_title">Logs da IDE</string>
     <string name="tab_diagnostics_title">Diagnósticos</string>
 </resources>

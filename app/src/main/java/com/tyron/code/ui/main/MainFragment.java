@@ -80,6 +80,9 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
     public static final Key<MainViewModel> MAIN_VIEW_MODEL_KEY = Key.create("mainViewModel");
     SharedPreferences sharedPreferences = ApplicationLoader.getDefaultPreferences();
 
+    private String rootName = "";
+    private String projectPath = "";
+
     private Handler mHandler;
     static final float END_SCALE = 0.7f;
     FragmentContainerView contentView;
@@ -136,8 +139,8 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
 
         requireActivity().getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
 
-        String projectPath = requireArguments().getString("project_path");
-        String rootName = requireArguments().getString("root_name");
+        projectPath = requireArguments().getString("project_path");
+        rootName = requireArguments().getString("root_name");
 
         sharedPreferences
                 .edit()
@@ -170,6 +173,8 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
         mToolbar = mRoot.findViewById(R.id.toolbar);
         contentView = mRoot.findViewById(R.id.root);
         mToolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
+        mToolbar.setTitle("Codech");
+        mToolbar.setSubtitle(rootName);
         UiUtilsKt.addSystemWindowInsetToPadding(mToolbar, false, true, false, false);
 
         getChildFragmentManager()

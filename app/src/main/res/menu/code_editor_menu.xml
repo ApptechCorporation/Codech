@@ -16,7 +16,6 @@
         app:showAsAction="ifRoom">
     </item>
 
-
     <item
         android:id="@+id/item_project"
         android:icon="@drawable/round_folder_24"

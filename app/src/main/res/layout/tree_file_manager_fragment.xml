@@ -26,9 +26,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Nome do Projeto"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 android:layout_weight="1"
-                android:gravity="end"
+                android:gravity="left|center_vertical"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:paddingEnd="4dp" />
@@ -41,7 +41,7 @@
                 app:iconGravity="start"
                 app:icon="@drawable/ic_add_library"
                 android:elevation="0dp"
-                style="@style/Widget.Material3.Button.TextButton" />
+                style="?attr/materialIconButtonFilledTonalStyle"/>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/projectProperties"
                 android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
                 app:iconGravity="start"
                 android:elevation="0dp"
                 app:icon="@drawable/ic_project_information"
-                style="@style/Widget.Material3.Button.TextButton" />
+                style="?attr/materialIconButtonFilledTonalStyle"/>
         </LinearLayout>
         <View
             android:id="@+id/divider"
