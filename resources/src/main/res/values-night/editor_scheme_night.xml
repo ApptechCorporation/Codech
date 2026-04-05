@@ -14,7 +14,7 @@
         <item name="blockLineColor">?attr/colorOutline</item>
         <item name="textNormal">?attr/colorOnBackground</item>
 
-        <item name="wholeBackground">?attrcolorOnBackground</item>
+        <item name="wholeBackground">?attr/android:colorBackground</item>
         <item name="completionPanelBackground">?attr/colorOutline</item>
         <item name="completionPanelStrokeColor">?attr/colorOutline</item>
 

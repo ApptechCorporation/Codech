@@ -59,7 +59,7 @@
     <!-- Painel de arquivos que vem de baixo para cima -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:id="@+id/dialog_folder"
         android:background="@drawable/nav_background_rounded"
@@ -81,15 +81,15 @@
             <Button
                 android:id="@+id/but_close"
                 style="?attr/materialIconButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 app:icon="@drawable/ic_close"/>
             </LinearLayout>
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_root"
                 android:name="com.tyron.code.ui.file.tree.TreeFileManagerFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="450dp"
                 android:layout_gravity="bottom" />
         </LinearLayout>
     </FrameLayout>

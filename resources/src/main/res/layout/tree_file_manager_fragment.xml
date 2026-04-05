@@ -21,9 +21,7 @@
                 android:id="@+id/addNewLibrary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"               
-                android:textSize="12sp"
-                app:iconPadding="8dp"
-                app:iconGravity="start"
+                app:iconGravity="textStart"
                 app:icon="@drawable/ic_add_library"
                 android:elevation="0dp"
                 style="?attr/materialIconButtonFilledTonalStyle"/>
@@ -31,9 +29,7 @@
                 android:id="@+id/projectProperties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                app:iconPadding="8dp"
-                app:iconGravity="start"
+                app:iconGravity="textStart"
                 android:elevation="0dp"
                 app:icon="@drawable/ic_project_information"
                 style="?attr/materialIconButtonFilledTonalStyle"/>
