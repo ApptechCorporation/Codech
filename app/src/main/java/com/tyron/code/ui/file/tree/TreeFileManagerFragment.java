@@ -175,8 +175,8 @@ public class TreeFileManagerFragment extends Fragment {
         MaterialButton projectInfo = view.findViewById(R.id.projectProperties);
         TextView projectNameText = view.findViewById(R.id.projectNameText);
 
-        if (root != null) {
-            projectNameText.setText(root.getName());
+        if (rootDir != null) {
+            projectNameText.setText(rootDir.getName());
         } else {
             projectNameText.setText("Projeto");
         }
