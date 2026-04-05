@@ -13,7 +13,7 @@
         android:id="@+id/menu_preview_layout"
         android:icon="@drawable/ic_preview"
         android:title="@string/menu_preview_layout"
-        app:showAsAction="always">
+        app:showAsAction="ifRoom">
     </item>
 
 
