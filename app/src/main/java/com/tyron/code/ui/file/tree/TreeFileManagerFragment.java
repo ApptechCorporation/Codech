@@ -170,10 +170,9 @@ public class TreeFileManagerFragment extends Fragment {
                         }));
 
         treeView = new TreeView<>(requireContext(), TreeNode.root(Collections.emptyList()));
-
+        
         MaterialButton addLibrary = view.findViewById(R.id.addNewLibrary);
         MaterialButton projectInfo = view.findViewById(R.id.projectProperties);
-        TextView projectNameText = view.findViewById(R.id.projectNameText);
 
         addLibrary.setOnClickListener(
                 v -> {

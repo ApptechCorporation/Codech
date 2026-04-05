@@ -71,6 +71,9 @@ import java.util.stream.Collectors;
 import javax.tools.Diagnostic;
 import org.jetbrains.kotlin.com.intellij.openapi.util.Key;
 
+import android.widget.Button;
+import android.widget.LinearLayout;
+
 public class MainFragment extends Fragment implements ProjectManager.OnProjectOpenListener {
 
     public static final String REFRESH_TOOLBAR_KEY = "refreshToolbar";
@@ -107,6 +110,9 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
     private LinearProgressIndicator mProgressBar;
     private BroadcastReceiver mLogReceiver;
 
+    private LinearLayout dialogFolder;
+    private Button butClose;
+
     // Referências ao painel lateral e ao overlay
     private View mNavPanel;
     private View mNavOverlay;
@@ -114,7 +120,7 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
     private final OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
         @Override
         public void handleOnBackPressed() {
-            if (mNavPanel != null && mNavPanel.getVisibility() == View.VISIBLE) {
+            if (dialogFolder != null && dialogFolder.getVisibility() == View.VISIBLE) {
                 mMainViewModel.setDrawerState(false);
             } else {
                 showExitDialog();
@@ -197,7 +203,15 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
         mNavPanel = view.findViewById(R.id.nav_root);
         mNavOverlay = view.findViewById(R.id.nav_overlay);
 
-        if (mNavPanel != null) {
+        dialogFolder = view.findViewById(R.id.dialog_folder);
+        butClose = view.findViewById(R.id.but_close);
+
+        butClose.setOnClickListener(
+                v -> {
+                    hideNavPanel();
+                });
+
+        if (dialogFolder != null) {
             mToolbar.setNavigationOnClickListener(
                     v -> {
                         boolean isOpen = Boolean.TRUE.equals(mMainViewModel.getDrawerState().getValue());
@@ -246,7 +260,7 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
                 .observe(
                         getViewLifecycleOwner(),
                         isOpen -> {
-                            if (mNavPanel != null) {
+                            if (dialogFolder != null) {
                                 if (isOpen) {
                                     showNavPanel();
                                 } else {
@@ -293,16 +307,16 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
     }
 
     private void showNavPanel() {
-        if (mNavPanel.getVisibility() == View.VISIBLE) return;
+        if (dialogFolder.getVisibility() == View.VISIBLE) return;
 
         // Garante que o painel seja clicável e visível
-        mNavPanel.setVisibility(View.VISIBLE);
-        mNavPanel.setClickable(true);
-        mNavPanel.setFocusable(true);
+        dialogFolder.setVisibility(View.VISIBLE);
+        dialogFolder.setClickable(true);
+        dialogFolder.setFocusable(true);
 
         // Define a posição inicial para a animação (vindo de baixo)
-        float startY = mNavPanel.getHeight() > 0 ? mNavPanel.getHeight() : 1000;
-        mNavPanel.setTranslationY(startY);
+        float startY = dialogFolder.getHeight() > 0 ? dialogFolder.getHeight() : 1000;
+        dialogFolder.setTranslationY(startY);
 
         if (mNavOverlay != null) {
             mNavOverlay.setVisibility(View.VISIBLE);
@@ -313,18 +327,18 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
                     .start();
         }
 
-        mNavPanel.animate()
+        dialogFolder.animate()
                 .translationY(0)
                 .setDuration(300)
                 .start();
     }
 
     private void hideNavPanel() {
-        if (mNavPanel.getVisibility() != View.VISIBLE) return;
+        if (dialogFolder.getVisibility() != View.VISIBLE) return;
 
         // Desativa cliques imediatamente para evitar interações durante a animação de saída
-        mNavPanel.setClickable(false);
-        mNavPanel.setFocusable(false);
+        dialogFolder.setClickable(false);
+        dialogFolder.setFocusable(false);
 
         if (mNavOverlay != null) {
             mNavOverlay.animate()
@@ -336,17 +350,17 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
                     .start();
         }
 
-        float targetY = mNavPanel.getHeight() > 0 ? mNavPanel.getHeight() : 1000;
+        float targetY = dialogFolder.getHeight() > 0 ? dialogFolder.getHeight() : 1000;
 
-        mNavPanel.animate()
+        dialogFolder.animate()
                 .translationY(targetY)
                 .setDuration(300)
                 .withEndAction(() -> {
                     // Define como GONE para remover completamente do layout e parar de interceptar
                     // toques
-                    mNavPanel.setVisibility(View.GONE);
+                    dialogFolder.setVisibility(View.GONE);
                     // Reseta a translação para que o layout volte ao normal internamente
-                    mNavPanel.setTranslationY(0);
+                    dialogFolder.setTranslationY(0);
                 })
                 .start();
     }
@@ -433,9 +447,9 @@ public class MainFragment extends Fragment implements ProjectManager.OnProjectOp
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         saveAll();
-        if (mNavPanel != null) {
+        if (dialogFolder != null) {
             outState.putBoolean(
-                    "start_drawer_state", mNavPanel.getVisibility() == View.VISIBLE);
+                    "start_drawer_state", dialogFolder.getVisibility() == View.VISIBLE);
         }
         super.onSaveInstanceState(outState);
     }

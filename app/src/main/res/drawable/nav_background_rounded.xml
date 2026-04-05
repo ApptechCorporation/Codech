@@ -1,12 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Cor de fundo - ajuste para a cor que seu tema usa, ou use uma referencia de cor -->
-    <solid android:color="?attr/colorSecondaryContainer" />
-    
-    <!-- Bordas arredondadas apenas no topo (esquerda e direita) -->
-    <corners
-        android:topLeftRadius="24dp"
-        android:topRightRadius="24dp"
-        android:bottomLeftRadius="0dp"
-        android:bottomRightRadius="0dp" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+        <solid android:color="?attr/colorSecondaryContainer" />
+        <corners android:radius="30dp" />
+        <stroke android:width="3dp"
+                android:color="?attr/colorOutline" />
 </shape>
