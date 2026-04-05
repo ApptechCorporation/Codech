@@ -127,7 +127,6 @@ public class CodeEditorFragment extends Fragment
     private static final Map<String, String> SERVER_MAP = Map.of(
             "kt", KotlinLanguageServer.SERVER_ID);
 
-    // Executor reutilizável para operações de IO, evitando criação excessiva de threads
     private static final ExecutorService IO_EXECUTOR = Executors.newSingleThreadExecutor();
 
     private ILanguageServer createLanguageServer(File file) {
@@ -265,7 +264,6 @@ public class CodeEditorFragment extends Fragment
         mCanSave = false;
 
         mEditor = view.findViewById(R.id.code_editor);
-        // Otimização: Ativar aceleração de hardware para o editor
         mEditor.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         
         mEditor.setEditable(false);
@@ -293,7 +291,6 @@ public class CodeEditorFragment extends Fragment
                 readOrWait();
             }
         } else {
-            // Otimização: Carregamento assíncrono do tema para evitar lag na UI
             ListenableFuture<TextMateColorScheme> schemeFuture = getScheme(schemeValue);
             Futures.addCallback(schemeFuture, new FutureCallback<TextMateColorScheme>() {
                 @Override
@@ -524,7 +521,7 @@ public class CodeEditorFragment extends Fragment
             if (module != null) module.getFileManager().removeSnapshotListener(this);
         }
         ProjectManager.getInstance().removeOnProjectOpenListener(this);
-        mEditor = null; // Memory leak prevention
+        mEditor = null;
     }
 
     @Override
