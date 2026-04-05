@@ -53,17 +53,44 @@
         android:id="@+id/nav_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80000000"
+        android:background="?attr/colorOutline"
         android:visibility="gone" />
 
     <!-- Painel de arquivos que vem de baixo para cima -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_root"
-        android:name="com.tyron.code.ui.file.tree.TreeFileManagerFragment"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_gravity="bottom"
+        android:layout_height="400dp"
+        android:gravity="center_vertical"
+        android:id="@+id/dialog_folder"
         android:background="@drawable/nav_background_rounded"
-        android:visibility="gone" />
-
-</FrameLayout>
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_gravity="bottom" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/projectNameText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Projeto"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:ellipsize="end" />
+            <Button
+                android:id="@+id/but_close"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:icon="@drawable/ic_close"/>
+            </LinearLayout>
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/nav_root"
+                android:name="com.tyron.code.ui.file.tree.TreeFileManagerFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom" />
+        </LinearLayout>
+    </FrameLayout>
