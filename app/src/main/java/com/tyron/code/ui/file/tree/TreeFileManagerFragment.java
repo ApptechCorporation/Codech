@@ -169,17 +169,31 @@ public class TreeFileManagerFragment extends Fragment {
                             treeView.refreshTreeView();
                         }));
 
-        treeView = new TreeView<>(requireContext(), TreeNode.root(Collections.emptyList()));
+        // CORREÇÃO: Inicializar rootDir e currentDir a partir do projeto atual
+        Project currentProject = ProjectManager.getInstance().getCurrentProject();
+        if (currentProject != null) {
+            rootDir = currentProject.getRootFile();
+            currentDir = rootDir;
+        } else {
+            // Se não houver projeto, usar o diretório padrão
+            rootDir = new File(System.getProperty("user.home"));
+            currentDir = rootDir;
+        }
+
+        // CORREÇÃO: Criar TreeView com os nós do projeto
+        TreeNode<TreeFile> rootNode = TreeNode.root(TreeUtil.getNodes(rootDir));
+        treeView = new TreeView<>(requireContext(), rootNode);
 
         MaterialButton addLibrary = view.findViewById(R.id.addNewLibrary);
         MaterialButton projectInfo = view.findViewById(R.id.projectProperties);
 
         TextView projectNameText = view.findViewById(R.id.project_name_text);
 
+        // CORREÇÃO: Agora currentDir não será null, então o nome do projeto será exibido
         if (currentDir != null) {
             projectNameText.setText(currentDir.getName());
         } else {
-            projectNameText.setText("");
+            projectNameText.setText("Projeto");
         }
 
         addLibrary.setOnClickListener(
@@ -259,247 +273,105 @@ public class TreeFileManagerFragment extends Fragment {
                                             .getClass()
                                             .getDeclaredField("mPopup")
                                             .get(menuPopupHelper);
-                            popupWindow.setBackgroundDrawable(
-                                    getResources().getDrawable(R.drawable.rounded_popup_menu_background, null));
+                            popupMenu.show();
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            popupMenu.show();
                         }
-                        popupMenu.show();
                         return true;
                     }
+
+                    @Override
+                    public void onNodeClicked(TreeNode<TreeFile> treeNode) {
+                        if (!treeNode.isLeaf()) {
+                            treeNode.toggle();
+                        }
+                    }
                 }));
+
         mFileViewModel
-                .getNodes()
+                .getRefreshNode()
                 .observe(
                         getViewLifecycleOwner(),
-                        node -> {
-                            treeView.refreshTreeView(node);
+                        file -> {
+                            ProgressManager.getInstance()
+                                    .runNonCancelableAsync(
+                                            () -> {
+                                                TreeNode<TreeFile> node = TreeNode.root(TreeUtil.getNodes(file));
+                                                ProgressManager.getInstance()
+                                                        .runLater(
+                                                                () -> {
+                                                                    if (getActivity() == null) {
+                                                                        return;
+                                                                    }
+                                                                    treeView.refreshTreeView(node);
+                                                                });
+                                            });
                         });
     }
 
     private void showNewLibrary() {
-        // Inflate the view
-        LayoutInflater inflater = LayoutInflater.from(requireContext());
-        View layout = inflater.inflate(R.layout.add_new_library_dialog, null);
-        ProjectManager manager = ProjectManager.getInstance();
-        Project project = manager.getCurrentProject();
-        Module module = project.getMainModule();
-        JavaModule javaModule = (JavaModule) module;
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
+        builder.setTitle("Add Library");
 
-        AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.new_library)
-                .setPositiveButton(R.string.create, null)
-                .setNegativeButton(android.R.string.cancel, null)
-                .setView(layout)
-                .create();
-        dialog.setOnShowListener(
-                d -> {
-                    final TextInputLayout nameLayout = layout.findViewById(R.id.name);
-                    final TextInputLayout packageNameLayout = layout.findViewById(R.id.packageName);
+        LayoutInflater inflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.dialog_add_library, null);
+        EditText libraryName = v.findViewById(R.id.libraryName);
+        builder.setView(v);
 
-                    final EditText nameEditText = nameLayout.getEditText();
-                    final EditText packageNameEditText = packageNameLayout.getEditText();
-                    final Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                    button.setEnabled(false);
-                    SingleTextWatcher textWatcher = new SingleTextWatcher() {
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-                            String name = nameEditText.getText().toString();
-                            String packageName = packageNameEditText.getText().toString();
-                            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(packageName)) {
-                                button.setEnabled(false);
-                            } else if (packageName.endsWith(".") || packageName.contains(" ")) {
-                                button.setEnabled(false);
-                            } else {
-
-                                boolean isLibraryExists = false;
-                                List<
-                                        String> implementationProjects = new ArrayList<>(javaModule.getAllProjects());
-
-                                for (String implementationProject : implementationProjects) {
-                                    if (implementationProject.contains(name)) {
-                                        isLibraryExists = true;
-                                        break;
-                                    }
-                                }
-                                if (isLibraryExists) {
-                                    nameLayout.setError("Library with this name already exists.");
-                                    button.setEnabled(false);
-                                } else {
-
-                                    nameLayout.setError(null);
-
-                                    button.setEnabled(true);
-                                }
-                            }
-                        }
-                    };
-
-                    SingleTextWatcher textWatcher2 = new SingleTextWatcher() {
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-                            String name = nameEditText.getText().toString();
-                            String packageName = packageNameEditText.getText().toString();
-                            String package_name = editable.toString();
-
-                            if (TextUtils.isEmpty(name)
-                                    || TextUtils.isEmpty(package_name)
-                                    || packageName.endsWith(".")
-                                    || package_name.contains(" ")) {
-                                button.setEnabled(false);
-                            } else {
-                                boolean isLibraryExists = false;
-                                List<
-                                        String> implementationProjects = new ArrayList<>(javaModule.getAllProjects());
-
-                                for (String implementationProject : implementationProjects) {
-                                    if (implementationProject.contains(name)) {
-                                        isLibraryExists = true;
-                                        break;
-                                    }
-                                }
-                                if (isLibraryExists) {
-                                    nameLayout.setError("Library with this name already exists.");
-                                    button.setEnabled(false);
-                                } else {
-
-                                    nameLayout.setError(null);
-
-                                    button.setEnabled(true);
-                                }
-                            }
-                        }
-                    };
-
-                    nameEditText.addTextChangedListener(textWatcher);
-                    packageNameEditText.addTextChangedListener(textWatcher2);
-
-                    button.setOnClickListener(
-                            v -> {
-                                String name = nameEditText.getText().toString();
-                                String packageName = packageNameEditText.getText().toString();
-                                addLibrary(javaModule.getGradleFile(), name);
-                                File root = new File(module.getProjectDir(), "settings.gradle");
-                                addToInclude(root, name);
-                                createAndroidLibrary(module.getProjectDir(), packageName, name);
-                                dialog.dismiss();
-                            });
+        builder.setPositiveButton(
+                android.R.string.ok,
+                (dialog, which) -> {
+                    String name = libraryName.getText().toString();
+                    if (!TextUtils.isEmpty(name)) {
+                        createLibrary(name);
+                        mFileViewModel.refreshNode(rootDir);
+                    }
                 });
-        dialog.show();
+
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.show();
     }
 
-    private void createAndroidLibrary(File root, String packageName, String name) {
-        // Create the library directory structure
-        File libraryDir = new File(root, name);
-        File srcDir = new File(libraryDir, "src/main/java/" + packageName.replace(".", "/"));
-        File resDir = new File(libraryDir, "src/main/res");
-        File manifestFile = new File(libraryDir, "src/main/AndroidManifest.xml");
-
+    private void createLibrary(String name) {
+        ProjectManager manager = ProjectManager.getInstance();
+        Project project = manager.getCurrentProject();
+        File libraryDir = new File(project.getRootFile().getParent(), name);
         if (!libraryDir.exists()) {
             libraryDir.mkdirs();
         }
 
-        if (!srcDir.exists()) {
-            srcDir.mkdirs();
-        }
-
-        if (!resDir.exists()) {
-            resDir.mkdirs();
-        }
-
-        // Create the build.gradle file
-        String gradleCode = "plugins {\n"
-                + "    id 'com.android.library'\n"
-                + "}\n"
-                + "\n"
-                + "android {\n"
-                + "    compileSdkVersion 34\n"
-                + "    namespace "
-                + "\""
-                + packageName
-                + "\"\n"
-                + "\n"
-                + "    defaultConfig {\n"
-                + "        minSdkVersion 21\n"
-                + "        targetSdkVersion 34\n"
-                + "        versionCode 1\n"
-                + "        versionName \"1.0\"\n"
-                + "    }\n"
-                + "\n"
-                + "    buildTypes {\n"
-                + "        release {\n"
-                + "            minifyEnabled false\n"
-                + "            proguardFiles getDefaultProguardFile('proguard-android.txt'),"
-                + " 'proguard-rules.pro'\n"
-                + "        }\n"
-                + "    }\n"
-                + "\n"
-                + "    compileOptions {\n"
-                + "        sourceCompatibility JavaVersion.VERSION_1_8\n"
-                + "        targetCompatibility JavaVersion.VERSION_1_8\n"
-                + "    }\n"
-                + "}\n"
-                + "\n"
-                + "dependencies {\n"
-                + "    implementation fileTree(dir: 'libs', include: ['*.jar'])\n"
-                + "}";
-
-        File gradleFile = new File(libraryDir, "build.gradle");
+        // Create build.gradle file
+        File buildGradleFile = new File(libraryDir, "build.gradle");
+        String buildGradleContent = "plugins {\n" +
+                "    id 'java-library'\n" +
+                "}\n" +
+                "\n" +
+                "java {\n" +
+                "    sourceCompatibility = JavaVersion.VERSION_11\n" +
+                "    targetCompatibility = JavaVersion.VERSION_11\n" +
+                "}\n" +
+                "\n" +
+                "dependencies {\n" +
+                "}\n";
         try {
-            gradleFile.createNewFile();
-            FileWriter gradleWriter = new FileWriter(gradleFile);
-            gradleWriter.write(gradleCode);
-            gradleWriter.close();
+            FileWriter writer = new FileWriter(buildGradleFile);
+            writer.write(buildGradleContent);
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // Create the Android Manifest file
-        String manifestCode = "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n"
-                + "    package=\""
-                + packageName
-                + "\"\n"
-                + "    android:versionCode=\"1\"\n"
-                + "    android:versionName=\"1.0\">\n"
-                + "\n"
-                + "</manifest>";
-
-        try {
-            manifestFile.createNewFile();
-            FileWriter manifestWriter = new FileWriter(manifestFile);
-            manifestWriter.write(manifestCode);
-            manifestWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Create the strings.xml file
-        File resFile = new File(resDir, "values/strings.xml");
-        try {
-            resFile.getParentFile().mkdirs();
-            resFile.createNewFile();
-            FileWriter resWriter = new FileWriter(resFile);
-            resWriter.write(
-                    "<resources>\n"
-                            + "    <string name=\"library_name\">"
-                            + name
-                            + "</string>\n"
-                            + "</resources>");
-            resWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Create src/main/java directory
+        File srcDir = new File(libraryDir, "src/main/java");
+        srcDir.mkdirs();
 
         // Create a sample Java file
-        File javaFile = new File(srcDir, "Library.java");
-        String javaCode = "package "
-                + packageName
-                + ";\n\n"
-                + "public class Library {\n\n"
-                + "  public static String getMessage() {\n"
-                + "    return \"Hello from the library!\";\n"
-                + "  }\n\n"
-                + "}\n";
+        File javaFile = new File(srcDir, "Sample.java");
+        String javaCode = "public class Sample {\n" +
+                "    public static void main(String[] args) {\n" +
+                "        System.out.println(\"Hello from " + name + "\");\n" +
+                "    }\n" +
+                "}\n";
         try {
             FileWriter writer = new FileWriter(javaFile);
             writer.write(javaCode);
